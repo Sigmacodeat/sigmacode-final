@@ -25,6 +25,12 @@ import {
   Zap,
   Database,
   MessageSquare,
+  Sparkles,
+  Users,
+  Activity,
+  Link as LinkIcon,
+  Bell,
+  Palette,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useDifyHealth } from '@/app/hooks/useDifyHealth';
@@ -60,6 +66,14 @@ export function DashboardNav() {
         { name: t('overview'), href: '/dashboard', icon: BarChart3 },
         { name: t('chat'), href: '/dashboard/chat', icon: MessageSquare },
         { name: t('agents'), href: '/dashboard/agents', icon: Brain },
+        { name: 'Notifications', href: '/dashboard/notifications', icon: Bell, highlight: true },
+      ],
+    },
+    {
+      title: 'Team',
+      items: [
+        { name: 'Team Management', href: '/dashboard/teams', icon: Users, highlight: true },
+        { name: 'Collaboration', href: '/dashboard/collaboration', icon: Users, highlight: true },
       ],
     },
     {
@@ -69,17 +83,24 @@ export function DashboardNav() {
         { name: t('knowledge'), href: '/dashboard/knowledge', icon: Database },
         { name: t('models'), href: '/dashboard/models', icon: Zap },
         { name: t('tools'), href: '/dashboard/tools', icon: Settings },
+        { name: 'AI Assistant', href: '/dashboard/ai-assistant', icon: Sparkles, highlight: true },
+        { name: 'Integrations', href: '/dashboard/integrations', icon: LinkIcon, highlight: true },
       ],
     },
     {
       title: t('security'),
       items: [
         { name: t('firewall'), href: '/dashboard/firewall', icon: Shield, highlight: true }, // USP!
+        { name: 'Advanced Security', href: '/dashboard/security', icon: Shield, highlight: true },
+        { name: 'Performance', href: '/dashboard/performance', icon: Activity, highlight: true },
       ],
     },
     {
       title: t('admin'),
-      items: [{ name: t('settings'), href: '/dashboard/settings', icon: Key }],
+      items: [
+        { name: t('settings'), href: '/dashboard/settings', icon: Key },
+        { name: 'Themes', href: '/dashboard/themes', icon: Palette, highlight: true },
+      ],
     },
   ];
 

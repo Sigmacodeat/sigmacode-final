@@ -33,9 +33,11 @@ function rangeToSince(range: string): Date {
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
+    const typeParam = url.searchParams.get('type') || 'recent';
+    const rangeParam = url.searchParams.get('range') || '24h';
     const parsed = QuerySchema.safeParse({
-      type: (url.searchParams.get('type') || 'recent') as any,
-      range: (url.searchParams.get('range') || '24h') as any,
+      type: typeParam,
+      range: rangeParam,
     });
     if (!parsed.success) {
       return NextResponse.json({ error: 'Invalid query parameters' }, { status: 400 });

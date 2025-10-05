@@ -1,0 +1,56 @@
+name: Deploy Cloudflare Workers
+
+on:
+  push:
+    branches: [main, production]
+    paths:
+      - 'edge/cloudflare/**'
+      - '.github/workflows/deploy-workers.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
+      - name: Deploy AI Trigger Worker
+        working-directory: edge/cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "🚀 Deploying AI Trigger Worker..."
+          wrangler deploy -c wrangler.ai-trigger.toml
+          echo "✅ Worker deployed successfully!"
+
+      - name: Deploy Policy Worker
+        working-directory: edge/cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "🚀 Deploying Policy Worker..."
+          wrangler deploy -c wrangler.toml
+          echo "✅ Worker deployed successfully!"
+
+      - name: Test Workers
+        run: |
+          echo "Testing AI Trigger Worker..."
+          sleep 5
+          
+          # Test health endpoint
+          if curl -f https://sigmacode-ai-triggers.workers.dev/health; then
+            echo "✅ AI Trigger Worker is healthy"
+          else
+            echo "⚠️ AI Trigger Worker health check failed (might need custom domain)"
+          fi

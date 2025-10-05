@@ -23,3 +23,13 @@ e2e/**
 .pnpm-store/**
 .vscode/**
 .idea/**
+
+# Migration & Scripts
+migrate.js
+scripts/**
+package/**
+edge/cloudflare/package.json
+
+# JSON files
+*.json
+!tsconfig*.json

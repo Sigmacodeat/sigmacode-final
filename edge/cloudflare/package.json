@@ -1,0 +1,27 @@
+{
+  "name": "sigmacode-cloudflare-workers",
+  "version": "1.0.0",
+  "description": "SigmaCode AI Trigger Workers for Cloudflare",
+  "main": "worker.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:ai-trigger": "wrangler deploy -c wrangler.ai-trigger.toml",
+    "deploy:policy": "wrangler deploy -c wrangler.toml",
+    "tail": "wrangler tail",
+    "kv:create": "wrangler kv:namespace create AI_TRIGGERS_KV && wrangler kv:namespace create AI_TRIGGERS_KV --preview"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "ai",
+    "edge"
+  ],
+  "author": "SigmaCode",
+  "license": "ISC",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250927.0",
+    "wrangler": "^3.95.0",
+    "typescript": "^5.3.3"
+  }
+}

@@ -3,6 +3,30 @@
  * Cloudflare Worker for handling AI agent triggers, webhooks, and orchestration
  */
 
+// Utility constants for robustness
+const MAX_REQUEST_SIZE = 1024 * 1024; // 1MB limit
+const REQUEST_TIMEOUT = 30000; // 30 seconds
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 1000; // 1 second
+
+// Rate limiting constants
+const RATE_LIMIT_REQUESTS = 100; // requests per window
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute in milliseconds
+const RATE_LIMIT_PREFIX = 'ratelimit_';
+
+// Content type validation
+const ALLOWED_CONTENT_TYPES = [
+  'application/json',
+  'application/x-www-form-urlencoded',
+  'text/plain'
+];
+
+interface ValidationResult<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+}
+
 interface Env {
   BACKEND_URL: string;
   BACKEND_API_KEY: string;
@@ -10,6 +34,26 @@ interface Env {
   SUPABASE_KEY: string;
   DIFY_API_URL: string;
   AI_TRIGGERS_KV: KVNamespace;
+}
+
+interface WebhookData {
+  id?: string;
+  agent_id?: string;
+  data?: Record<string, any>;
+  query?: string;
+  message?: string;
+  user_id?: string;
+}
+
+interface ScheduleData {
+  schedule_id: string;
+  agent_id: string;
+  query: string;
+  inputs?: Record<string, any>;
+  cron: string;
+  next_run?: string;
+  last_run?: string;
+  status?: string;
 }
 
 interface TriggerRequest {
@@ -29,6 +73,84 @@ interface TriggerResponse {
   timestamp: string;
 }
 
+// Rate limiting interface
+interface RateLimitData {
+  count: number;
+  resetTime: number;
+}
+
+// Utility Functions
+function getClientIP(request: Request): string {
+  // Try multiple headers for IP detection (Cloudflare specific)
+  const cfIP = request.headers.get('CF-Connecting-IP');
+  const forwardedIP = request.headers.get('X-Forwarded-For')?.split(',')[0]?.trim();
+  const realIP = request.headers.get('X-Real-IP');
+
+  return cfIP || forwardedIP || realIP || 'unknown';
+}
+
+async function checkRateLimit(env: Env, clientIP: string): Promise<{ allowed: boolean; resetTime?: number }> {
+  const key = `${RATE_LIMIT_PREFIX}${clientIP}`;
+  const now = Date.now();
+  const windowStart = Math.floor(now / RATE_LIMIT_WINDOW) * RATE_LIMIT_WINDOW;
+
+  try {
+    const existingData = await env.AI_TRIGGERS_KV.get(key);
+    let rateData: RateLimitData;
+
+    if (existingData) {
+      rateData = JSON.parse(existingData);
+
+      // Reset counter if window has expired
+      if (now >= rateData.resetTime) {
+        rateData = { count: 1, resetTime: windowStart + RATE_LIMIT_WINDOW };
+      } else {
+        rateData.count += 1;
+      }
+    } else {
+      rateData = { count: 1, resetTime: windowStart + RATE_LIMIT_WINDOW };
+    }
+
+    // Check if limit exceeded
+    if (rateData.count > RATE_LIMIT_REQUESTS) {
+      return { allowed: false, resetTime: rateData.resetTime };
+    }
+
+    // Store updated rate limit data
+    await env.AI_TRIGGERS_KV.put(key, JSON.stringify(rateData), {
+      expirationTtl: Math.ceil((rateData.resetTime - now) / 1000)
+    });
+
+    return { allowed: true };
+  } catch (error) {
+    // If rate limiting fails, allow request but log error
+    console.error('Rate limiting check failed:', error);
+    return { allowed: true };
+  }
+}
+
+function validateContentType(request: Request): ValidationResult<null> {
+  const contentType = request.headers.get('content-type')?.split(';')[0]?.toLowerCase();
+
+  if (!contentType) {
+    return { success: true }; // Allow requests without content-type for GET requests
+  }
+
+  if (!ALLOWED_CONTENT_TYPES.includes(contentType)) {
+    return {
+      success: false,
+      error: `Content-Type '${contentType}' not allowed. Allowed: ${ALLOWED_CONTENT_TYPES.join(', ')}`
+    };
+  }
+
+  return { success: true };
+}
+
+function sanitizeString(input: string, maxLength: number = 1000): string {
+  if (typeof input !== 'string') return '';
+  return input.slice(0, maxLength).replace(/[<>'"&]/g, '');
+}
+
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
@@ -46,6 +168,49 @@ export default {
     }
 
     try {
+      // Rate limiting check (skip for health checks)
+      if (path !== '/health') {
+        const clientIP = getClientIP(request);
+        const rateLimitResult = await checkRateLimit(env, clientIP);
+
+        if (!rateLimitResult.allowed) {
+          console.log('warn', 'Rate limit exceeded', { clientIP, resetTime: rateLimitResult.resetTime });
+          return new Response(
+            JSON.stringify({
+              status: 'error',
+              message: 'Rate limit exceeded. Please try again later.',
+              retryAfter: Math.ceil((rateLimitResult.resetTime! - Date.now()) / 1000),
+            }),
+            {
+              status: 429,
+              headers: {
+                ...corsHeaders,
+                'Content-Type': 'application/json',
+                'Retry-After': Math.ceil((rateLimitResult.resetTime! - Date.now()) / 1000).toString(),
+              },
+            }
+          );
+        }
+      }
+
+      // Content-Type validation for POST requests
+      if (request.method === 'POST') {
+        const contentTypeValidation = validateContentType(request);
+        if (!contentTypeValidation.success) {
+          console.log('warn', 'Invalid content type', { contentType: request.headers.get('content-type') });
+          return new Response(
+            JSON.stringify({
+              status: 'error',
+              message: contentTypeValidation.error,
+            }),
+            {
+              status: 400,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            }
+          );
+        }
+      }
+
       // Route: Health Check
       if (path === '/health' && request.method === 'GET') {
         return new Response(
@@ -63,7 +228,7 @@ export default {
       // Route: Trigger AI Agent
       if (path === '/api/trigger' && request.method === 'POST') {
         const triggerRequest = (await request.json()) as TriggerRequest;
-        const triggerId = `trig_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const triggerId = `trig_${crypto.randomUUID()}`;
 
         // Validate request
         if (!triggerRequest.agent_id || !triggerRequest.query) {
@@ -257,12 +422,19 @@ async function executeTrigger(
   triggerId: string,
   triggerRequest: TriggerRequest,
 ): Promise<void> {
+  const startTime = Date.now();
+  console.log(`Starting trigger execution: ${triggerId}`);
+
   try {
+    // Add timeout to the backend request
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT); // 30 second timeout
+
     const response = await fetch(`${env.BACKEND_URL}/api/agents/invoke`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${env.BACKEND_API_KEY}`,
+        'Authorization': `Bearer ${env.BACKEND_API_KEY}`,
       },
       body: JSON.stringify({
         agent_id: triggerRequest.agent_id,
@@ -270,11 +442,21 @@ async function executeTrigger(
         query: triggerRequest.query,
         user: triggerRequest.user_id || 'trigger-system',
       }),
+      signal: controller.signal,
     });
 
-    const result = (await response.json()) as APIResponse;
+    clearTimeout(timeoutId);
 
-    // Update trigger status
+    let result: any;
+    try {
+      const responseText = await response.text();
+      result = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error(`Failed to parse response for ${triggerId}:`, parseError);
+      result = { status: 'error', message: 'Invalid response format' };
+    }
+
+    // Update trigger status with retry logic
     const triggerData = await env.AI_TRIGGERS_KV.get(triggerId);
     if (triggerData) {
       const trigger = JSON.parse(triggerData);
@@ -282,21 +464,28 @@ async function executeTrigger(
       trigger.execution_id = result.request_id;
       trigger.completed_at = new Date().toISOString();
       trigger.result = result;
+      trigger.duration_ms = Date.now() - startTime;
       await env.AI_TRIGGERS_KV.put(triggerId, JSON.stringify(trigger));
     }
 
-    console.log(`Trigger ${triggerId} executed:`, response.status);
+    console.log(`Trigger ${triggerId} executed in ${Date.now() - startTime}ms:`, response.status);
   } catch (error) {
-    console.error(`Trigger ${triggerId} failed:`, error);
+    const duration = Date.now() - startTime;
+    console.error(`Trigger ${triggerId} failed after ${duration}ms:`, error);
 
     // Update trigger status to failed
-    const triggerData = await env.AI_TRIGGERS_KV.get(triggerId);
-    if (triggerData) {
-      const trigger = JSON.parse(triggerData);
-      trigger.status = 'failed';
-      trigger.error = error instanceof Error ? error.message : 'Unknown error';
-      trigger.failed_at = new Date().toISOString();
-      await env.AI_TRIGGERS_KV.put(triggerId, JSON.stringify(trigger));
+    try {
+      const triggerData = await env.AI_TRIGGERS_KV.get(triggerId);
+      if (triggerData) {
+        const trigger = JSON.parse(triggerData);
+        trigger.status = 'failed';
+        trigger.error = error instanceof Error ? error.message : 'Unknown error';
+        trigger.failed_at = new Date().toISOString();
+        trigger.duration_ms = duration;
+        await env.AI_TRIGGERS_KV.put(triggerId, JSON.stringify(trigger));
+      }
+    } catch (updateError) {
+      console.error(`Failed to update trigger status for ${triggerId}:`, updateError);
     }
   }
 }
