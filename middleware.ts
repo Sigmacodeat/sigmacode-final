@@ -127,8 +127,9 @@ function addSecurityHeaders(response: NextResponse) {
   }
 
   // Produktion: harte Security-Header setzen
-  const scriptSrc = ["'self'", 'https:'];
-  const connectSrc = ["'self'", 'https:'];
+  // Note: Next.js requires 'unsafe-inline' and 'unsafe-eval' for hydration and HMR
+  const scriptSrc = ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https:'];
+  const connectSrc = ["'self'", 'https:', 'wss:'];
   const cspDirectives: Record<string, string[]> = {
     'default-src': ["'self'"],
     'base-uri': ["'self'"],
