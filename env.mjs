@@ -159,8 +159,13 @@ export const env = createEnv({
 
   /**
    * Skip Validation in bestimmten Umgebungen
+   * - Während Build-Zeit (Vercel Build)
+   * - Wenn SKIP_ENV_VALIDATION gesetzt ist
    */
-  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  skipValidation: 
+    !!process.env.SKIP_ENV_VALIDATION ||
+    process.env.NEXT_PHASE === 'phase-production-build' ||
+    process.env.VERCEL_ENV === 'production' && !process.env.NEXTAUTH_SECRET,
 
   /**
    * Empty String als undefined behandeln
