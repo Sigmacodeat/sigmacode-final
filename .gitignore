@@ -8,6 +8,8 @@ cloudflare.ini
 # Sensible Konfigurationen
 secrets.ini
 vault.yml
+vault-init.txt
+.final_config
 
 # Editor- und Systemdateien
 .DS_Store
