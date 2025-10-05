@@ -1,0 +1,71 @@
+# Vercel Ignore - Nur Next.js App deployen
+
+# Submodule (NICHT deployen!)
+dify/
+supabase/
+superagent/
+
+# Development
+node_modules/
+.next/
+.turbo/
+.cache/
+
+# Testing & Coverage
+coverage/
+e2e/
+test-results/
+playwright-report/
+__tests__/
+
+# Build artifacts
+dist/
+build/
+out/
+
+# Monitoring & Infrastructure (lokal)
+monitoring/
+kong/
+fluentd/
+vault/
+certbot/
+
+# Database & Scripts
+database/migrations/
+scripts/
+backup/
+
+# Documentation (nicht nötig für Deploy)
+*.md
+!README.md
+
+# Config files (werden durch env vars ersetzt)
+.env
+.env.*
+!.env.example
+docker-compose*.yml
+Dockerfile
+
+# Editor & System
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# Backend (separates Deployment)
+backend/
+
+# Package files (nicht nötig - Vercel installiert selbst)
+package/
+
+# Edge Workers (separates Deployment)
+edge/
+
+# Git
+.git/
+.github/
+.gitignore
+.gitattributes
+
+# Husky
+.husky/
