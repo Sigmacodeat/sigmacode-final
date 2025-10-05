@@ -8,6 +8,7 @@ import {
   analyticsErrorsByType,
   analyticsErrorsTrends,
 } from '@/database/schema/analytics';
+import { logger } from '@/lib/logger';
 
 const QuerySchema = z.object({
   type: z.enum(['recent', 'byType', 'trends']).default('recent'),
@@ -67,7 +68,7 @@ export async function GET(request: Request) {
     const rows = await db.select().from(analyticsErrorsTrends);
     return NextResponse.json({ data: rows });
   } catch (err) {
-    console.error('GET /api/analytics/errors error:', err);
+    logger.error({ err, path: '/api/analytics/errors' }, 'Failed to fetch analytics errors');
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

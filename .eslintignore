@@ -1,5 +1,12 @@
 dify/**
-supabase/**
+supabase/
+
+# Documentation
+*.md
+CODE-AUDIT-REPORT.md
+DEPLOYMENT-FIXES.md
+DEPLOYMENT-GUIDE.md
+FINAL-CLEANUP-SUMMARY.md**
 killbill-cloud/**
 superagent/**
 node_modules/**

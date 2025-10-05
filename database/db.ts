@@ -41,7 +41,7 @@ async function loadDbConfigFromVault(): Promise<VaultDbConfig | null> {
 
   // Importiere node-vault nur, wenn benötigt. Mit webpackIgnore, damit der Build nicht fehlschlägt, wenn das Paket fehlt.
   const nodeVaultModule = await import(/* webpackIgnore: true */ 'node-vault')
-    .then((m) => (m as any).default ?? m)
+    .then((m) => (typeof m === 'object' && m !== null && 'default' in m ? m.default : m))
     .catch(() => null);
   if (!nodeVaultModule) {
     console.warn(
@@ -57,14 +57,14 @@ async function loadDbConfigFromVault(): Promise<VaultDbConfig | null> {
       token: VAULT_TOKEN,
     });
     const res = await vault.read(SECRET_PATH);
-    const data: any = res?.data?.data || {};
+    const data: Record<string, unknown> = res?.data?.data || {};
     return {
-      host: data.host,
-      port: normalizePort(data.port),
-      database: data.database,
-      username: data.username,
-      password: data.password,
-      ssl_ca: maybeDecodeBase64Pem(data.ssl_ca),
+      host: typeof data.host === 'string' ? data.host : undefined,
+      port: normalizePort(typeof data.port === 'string' || typeof data.port === 'number' ? data.port : undefined),
+      database: typeof data.database === 'string' ? data.database : undefined,
+      username: typeof data.username === 'string' ? data.username : undefined,
+      password: typeof data.password === 'string' ? data.password : undefined,
+      ssl_ca: maybeDecodeBase64Pem(typeof data.ssl_ca === 'string' ? data.ssl_ca : undefined),
     };
   } catch (err) {
     console.warn(
@@ -90,17 +90,18 @@ function buildPoolConfig(vaultCfg: VaultDbConfig | null): PoolConfig {
         password: process.env.POSTGRES_PASSWORD || vaultCfg?.password || 'postgres',
       };
 
-  // SSL nur in Production standardmäßig aktivieren; CA optional
+  // SSL Configuration - Production-ready
   const sslEnabled =
     process.env.PGSSL?.toLowerCase() === 'true' || process.env.NODE_ENV === 'production';
+  
   if (sslEnabled) {
-    (base as any).ssl = {
-      rejectUnauthorized: false,
-      // Optional: CA nutzen, wenn aus Vault geliefert
+    const rejectUnauthorized = process.env.PGSSL_REJECT_UNAUTHORIZED !== 'false';
+    base.ssl = {
+      rejectUnauthorized,
       ca: vaultCfg?.ssl_ca,
-    } as any;
+    };
   } else {
-    (base as any).ssl = false as any;
+    base.ssl = false;
   }
 
   // sinnvolle Pool Defaults
