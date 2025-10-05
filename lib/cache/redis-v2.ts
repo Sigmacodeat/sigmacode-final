@@ -240,13 +240,29 @@ export class RedisCacheManager extends EventEmitter {
       enableCircuitBreaker: true,
       connectionTimeout: 5000,
       commandTimeout: 3000,
-      lazyConnect: false,
+      lazyConnect: true,
       maxRetriesPerRequest: 3,
       scripts: {},
       ...config,
     };
 
     this.circuitBreaker = new RedisCircuitBreaker();
+
+    // Skip Redis initialization during build time
+    const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build' || process.env.NODE_ENV === 'production' && !process.env.REDIS_HOST;
+    
+    if (isBuildTime) {
+      console.log('[Redis] Skipping Redis initialization during build time');
+      // Create a mock Redis instance that doesn't connect
+      this.redis = {
+        connect: async () => {},
+        disconnect: async () => {},
+        quit: async () => {},
+        on: () => this.redis,
+        once: () => this.redis,
+      } as unknown as Redis;
+      return;
+    }
 
     // Initialize Redis client with advanced configuration
     this.redis = new Redis({
