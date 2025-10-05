@@ -1,0 +1,30 @@
+# Ignore large/generated/tooling dirs
+node_modules/**
+.next/**
+dist/**
+build/**
+.cache/**
+coverage/**
+playwright-report/**
+e2e/**
+.turbo/**
+.vercel/**
+.pnpm-store/**
+.vscode/**
+.idea/**
+.rt_*
+
+# Project-specific excludes
+supabase/**
+dify/**
+killbill-cloud/**
+superagent/**
+
+# Python virtual envs & caches (seen under dify/api/.venv)
+**/.venv/**
+**/venv/**
+**/__pycache__/**
+*.pyc
+
+# Monitoring & dashboards (can contain external/corrupted JSON)
+monitoring/**

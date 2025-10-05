@@ -1,0 +1,640 @@
+# SIGMACODE AI - Complete Docker Infrastructure Stack
+# Production-ready, scalable, and monitored container orchestration
+
+services:
+  # =============================================================================
+  # CORE INFRASTRUCTURE
+  # =============================================================================
+
+  # PostgreSQL Database (Primary)
+  app-db:
+    image: postgres:15-alpine
+    # container_name: sigmacode-db  # Removed to avoid name conflicts
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-sigmacode_dev}
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - '${POSTGRES_PORT:-5433}:5432'
+    volumes:
+      - app-db-data:/var/lib/postgresql/data
+      - ./database/init-scripts:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # Redis Cache & Session Store
+  redis:
+    image: redis:7-alpine
+    # container_name: sigmacode-redis  # Removed to avoid name conflicts
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis_password} --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - '${REDIS_PORT:-6380}:6379'
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', '--raw', 'incr', 'ping']
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # HashiCorp Vault (Secrets Management)
+  vault:
+    image: hashicorp/vault:latest
+    # container_name: sigmacode-vault  # Removed to avoid name conflicts
+    ports:
+      - '${VAULT_PORT:-8201}:8200'
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_ROOT_TOKEN:-hvs_dev_root_token}
+    command: >
+      vault server -dev -dev-root-token-id=${VAULT_ROOT_TOKEN:-hvs_dev_root_token} -dev-listen-address=0.0.0.0:8200
+    healthcheck:
+      test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:8200/v1/sys/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # =============================================================================
+  # AI & WORKFLOW ENGINE
+  # =============================================================================
+
+  # Dify API Server
+  dify-api:
+    build:
+      context: ./dify/api
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+    # container_name: dify-api  # Removed to avoid name conflicts
+    environment:
+      # Database
+      DB_USERNAME: ${POSTGRES_USER:-postgres}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      DB_HOST: app-db
+      DB_PORT: 5432
+      DB_DATABASE: ${POSTGRES_DB:-sigmacode_dev}
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis_password}
+      # Celery
+      CELERY_BROKER_URL: redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/1
+      # App Config
+      SECRET_KEY: ${DIFY_SECRET_KEY:-dify_secret_key}
+      API_KEY: ${DIFY_API_KEY:-dify_api_key}
+      LOG_LEVEL: INFO
+      # Storage
+      STORAGE_TYPE: local
+      STORAGE_LOCAL_PATH: /app/storage
+      # Firewall Integration
+      FIREWALL_ENABLED: ${FIREWALL_ENABLED:-true}
+      FIREWALL_MODE: ${FIREWALL_MODE:-shadow}
+      SUPERAGENT_URL: http://sigmaguard:8080
+      DIFY_API_URL: http://dify-api:5001
+    ports:
+      - '${DIFY_API_PORT:-5101}:5001'
+    volumes:
+      - dify-api-storage:/app/storage
+    depends_on:
+      app-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:5001/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # Dify Worker (Background Tasks)
+  dify-worker:
+    build:
+      context: ./dify/api
+      dockerfile: Dockerfile
+    container_name: dify-worker
+    command: celery -A app.celery worker -l INFO --concurrency=2
+    environment:
+      DB_USERNAME: ${POSTGRES_USER:-postgres}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      DB_HOST: app-db
+      DB_PORT: 5432
+      DB_DATABASE: ${POSTGRES_DB:-sigmacode_dev}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis_password}
+      CELERY_BROKER_URL: redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/1
+      SECRET_KEY: ${DIFY_SECRET_KEY:-dify_secret_key}
+    volumes:
+      - dify-api-storage:/app/storage
+    depends_on:
+      app-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      dify-api:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # Dify Web Frontend
+  dify-web:
+    image: langgenius/dify-web:latest
+    environment:
+      CONSOLE_API_URL: http://dify-api:5001
+      APP_API_URL: http://dify-api:5001
+    ports:
+      - '${DIFY_WEB_PORT:-3000}:3000'
+    depends_on:
+      dify-api:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # =============================================================================
+  # SECURITY & FIREWALL
+  # =============================================================================
+
+  # Superagent AI Firewall (SIGMAGUARD)
+  sigmaguard:
+    image: superagent/superagent:latest
+    container_name: sigmaguard-firewall
+    environment:
+      SUPERAGENT_API_KEY: ${SUPERAGENT_API_KEY:-sigmaguard_api_key}
+      SUPERAGENT_LOG_LEVEL: INFO
+      VAULT_URL: http://vault:8200
+      VAULT_TOKEN: ${VAULT_ROOT_TOKEN:-hvs_dev_root_token}
+    ports:
+      - '${SUPERAGENT_PORT:-8080}:8080'
+    depends_on:
+      vault:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # =============================================================================
+  # API GATEWAY & LOAD BALANCING
+  # =============================================================================
+
+  # Kong API Gateway
+  kong:
+    image: kong:latest
+    # container_name: sigmacode-kong  # Removed to avoid name conflicts
+    environment:
+      KONG_DATABASE: 'off'
+      KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
+      KONG_PROXY_LISTEN: 0.0.0.0:8000, 0.0.0.0:8443 ssl
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+      KONG_LOG_LEVEL: notice
+      KONG_SSL_CERT: /etc/letsencrypt/live/${DOMAIN:-sigmacode.ai}/fullchain.pem
+      KONG_SSL_CERT_KEY: /etc/letsencrypt/live/${DOMAIN:-sigmacode.ai}/privkey.pem
+    ports:
+      - '${KONG_PROXY_PORT:-8002}:8000'
+      - '${KONG_ADMIN_PORT:-8101}:8001'
+      - '${KONG_SSL_PORT:-8443}:8443'
+    volumes:
+      - ./kong:/usr/local/kong/declarative
+      - ./certs:/etc/letsencrypt:ro
+      - ./certs:/etc/kong/certs:ro
+    healthcheck:
+      test: ['CMD', 'kong', 'health']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # Konga (Kong Admin UI)
+  konga:
+    image: pantsel/konga:latest
+    container_name: sigmacode-konga
+    depends_on:
+      kong:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DB_ADAPTER: 'sqlite'
+      DB_STORAGE: '/app/konga/konga.db'
+      KONGA_SEED_USER: 'admin:admin123'
+    ports:
+      - '${KONGA_PORT:-1337}:1337'
+    volumes:
+      - konga-data:/app/konga
+    platform: linux/amd64
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:1337']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # =============================================================================
+  # DATABASE & BACKUP
+  # =============================================================================
+
+  # Supabase (Alternative Database)
+  supabase-db:
+    image: supabase/postgres:15.1.0.147
+    container_name: supabase-db
+    environment:
+      POSTGRES_PASSWORD: ${SUPABASE_PASSWORD:-supabase_password}
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      JWT_SECRET: ${SUPABASE_JWT_SECRET:-supabase_jwt_secret}
+    ports:
+      - '${SUPABASE_DB_PORT:-5433}:5432'
+    volumes:
+      - supabase-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # Supabase REST API
+  supabase-rest:
+    image: supabase/postgrest:latest
+    container_name: supabase-rest
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+    environment:
+      PGRST_DB_URI: postgres://postgres:${SUPABASE_PASSWORD:-supabase_password}@supabase-db:5432/postgres
+      PGRST_DB_SCHEMA: public
+      PGRST_JWT_SECRET: ${SUPABASE_JWT_SECRET:-supabase_jwt_secret}
+    ports:
+      - '${SUPABASE_REST_PORT:-3001}:3000'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/live']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # Supabase Auth Service
+  supabase-auth:
+    image: supabase/gotrue:latest
+    container_name: supabase-auth
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+    environment:
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: postgres://postgres:${SUPABASE_PASSWORD:-supabase_password}@supabase-db:5432/postgres
+      GOTRUE_JWT_SECRET: ${SUPABASE_JWT_SECRET:-supabase_jwt_secret}
+      GOTRUE_SITE_URL: ${SUPABASE_URL:-http://localhost:3000}
+    ports:
+      - '${SUPABASE_AUTH_PORT:-9999}:9999'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9999/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # =============================================================================
+  # MONITORING & OBSERVABILITY
+  # =============================================================================
+
+  # Prometheus Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: sigmacode-prometheus
+    ports:
+      - '${PROMETHEUS_PORT:-9090}:9090'
+    volumes:
+      - ./monitoring/prometheus:/etc/prometheus:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
+      - '--web.enable-admin-api'
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:9090/-/ready']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # Grafana Dashboards
+  grafana:
+    image: grafana/grafana:latest
+    # container_name: sigmacode-grafana  # Removed to avoid name conflicts
+    depends_on:
+      prometheus:
+        condition: service_healthy
+    ports:
+      - '${GRAFANA_PORT:-3100}:3000'
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-grafana_password}
+      GF_AUTH_ANONYMOUS_ENABLED: 'false'
+    volumes:
+      - grafana-data:/var/lib/grafana
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3000/api/health']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # AlertManager
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: sigmacode-alertmanager
+    ports:
+      - '${ALERTMANAGER_PORT:-9093}:9093'
+    volumes:
+      - ./monitoring/alertmanager:/etc/alertmanager:ro
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:9093/-/ready']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # Node Exporter (System Metrics)
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: sigmacode-node-exporter
+    ports:
+      - '${NODE_EXPORTER_PORT:-9100}:9100'
+    command:
+      - '--path.rootfs=/host'
+    pid: 'host'
+    volumes:
+      - /:/host:ro
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # cAdvisor (Container Metrics)
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: sigmacode-cadvisor
+    ports:
+      - '${CADVISOR_PORT:-8080}:8080'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:8080/healthz']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # =============================================================================
+  # LOGGING & SEARCH
+  # =============================================================================
+
+  # Elasticsearch (Log Storage)
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+    # container_name: sigmacode-elasticsearch  # Removed to avoid name conflicts
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD:-elastic_password}
+    ports:
+      - '${ELASTICSEARCH_PORT:-9201}:9200'
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -f http://localhost:9200/_cluster/health || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # Kibana (Log Visualization)
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.3
+    container_name: sigmacode-kibana
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - '${KIBANA_PORT:-5601}:5601'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:5601/api/status']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # FluentD (Log Collection)
+  fluentd:
+    build:
+      context: ./fluentd
+      dockerfile: Dockerfile
+    container_name: sigmacode-fluentd
+    volumes:
+      - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    ports:
+      - '${FLUENTD_PORT:-24224}:24224'
+      - '${FLUENTD_UDP_PORT:-24224}:24224/udp'
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-elastic_password}
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:24220/api/plugins.json']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # =============================================================================
+  # CI/CD & AUTOMATION
+  # =============================================================================
+
+  # Woodpecker CI Server
+  woodpecker-server:
+    image: woodpeckerci/woodpecker-server:latest
+    container_name: sigmacode-ci-server
+    ports:
+      - '${WOODPECKER_SERVER_PORT:-8000}:8000'
+    environment:
+      WOODPECKER_SERVER_ADDR: ':8000'
+      WOODPECKER_OPEN: 'true'
+      WOODPECKER_ADMIN: ${WOODPECKER_ADMIN_USER:-admin}
+      WOODPECKER_DATABASE_DRIVER: sqlite3
+      WOODPECKER_DATABASE_DATASOURCE: /var/lib/woodpecker/server.db
+    volumes:
+      - woodpecker-server-data:/var/lib/woodpecker
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:8000/api/queue/info']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # Woodpecker CI Agent
+  woodpecker-agent:
+    image: woodpeckerci/woodpecker-agent:latest
+    container_name: sigmacode-ci-agent
+    environment:
+      WOODPECKER_SERVER: woodpecker-server:9000
+      WOODPECKER_AGENT_SECRET: ${WOODPECKER_AGENT_SECRET:-woodpecker_secret}
+    depends_on:
+      woodpecker-server:
+        condition: service_healthy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    networks:
+      - sigmacode-network
+
+  # =============================================================================
+  # TLS & CERTIFICATES
+  # =============================================================================
+
+  # Certbot (Let's Encrypt)
+  certbot:
+    image: certbot/certbot:latest
+    container_name: sigmacode-certbot
+    volumes:
+      - ./certs:/etc/letsencrypt
+      - ./certbot/data:/var/www/certbot
+    environment:
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:-your_token_here}
+      CERTBOT_EMAIL: ${CERTBOT_EMAIL:-admin@${DOMAIN:-sigmacode.ai}}
+    entrypoint: |
+      /bin/sh -c '
+      trap exit TERM;
+      while :; do
+        certbot renew --dns-cloudflare --dns-cloudflare-credentials /run/secrets/cloudflare_api_token 2>/dev/null || echo "Certbot renewal skipped (no token)";
+        sleep 12h &
+        wait $${!};
+      done;'
+    networks:
+      - sigmacode-network
+    profiles:
+      - tls
+
+  # =============================================================================
+  # VOLUMES
+  # =============================================================================
+
+volumes:
+  # Database Storage
+  app-db-data:
+    driver: local
+  supabase-db-data:
+    driver: local
+  elasticsearch-data:
+    driver: local
+
+  # Application Storage
+  dify-api-storage:
+    driver: local
+
+  # Cache & Session Storage
+  redis-data:
+    driver: local
+  vault-data:
+    driver: local
+
+  # Monitoring Data
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+  # CI/CD Data
+  woodpecker-server-data:
+    driver: local
+
+  # Admin Interfaces
+  konga-data:
+    driver: local
+
+# =============================================================================
+# NETWORKS
+# =============================================================================
+
+networks:
+  sigmacode-network:
+    driver: bridge
+    name: sigmacode-network
+    external: true

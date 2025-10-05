@@ -1,0 +1,617 @@
+{
+  "brand": {
+    "name": "SIGMACODE Neural Firewall",
+    "tagline": "Intelligent Defense. Autonomous Protection."
+  },
+  "landing": {
+    "hero": {
+      "badge": "Quantum Neural Shield",
+      "title": "AI Agents & Workflows",
+      "subtitle": "Firewall‑Powered por Quantum Neural Shield",
+      "description": "Construye, orquesta y opera agentes de IA y workflows – protegidos por nuestra Firewall Neural IA. Latencia sub‑100ms, Seguridad Empresarial y listo para usar de inmediato.",
+      "ctaPrimary": "🚀 Prueba 14 días gratis",
+      "ctaSecondary": "📞 Programa demo de 15 minutos",
+      "ctaDemo": "Ver demo en vivo",
+      "trustBadges": {
+        "soc2": "SOC 2 Tipo II",
+        "soc2Desc": "Certificado",
+        "iso": "ISO 27001",
+        "isoDesc": "Compatible",
+        "uptime": "99.9% Uptime",
+        "uptimeDesc": "SLA",
+        "response": "<50ms",
+        "responseDesc": "Response"
+      }
+    },
+    "features": {
+      "title": "Agentes de IA y Workflows – con protección Firewall",
+      "description": "Orquesta workflows de multi‑agentes – la Firewall Neural Shield protege cada interacción.",
+      "security": {
+        "title": "Seguridad Zero Trust",
+        "description": "Cada solicitud se verifica en tiempo real – sin excepciones, sin riesgo."
+      },
+      "compliance": {
+        "title": "Compliance by Design",
+        "description": "DSGVO, HIPAA y SOC2 – todos los requisitos de cumplimiento incluidos por defecto."
+      },
+      "performance": {
+        "title": "Performance Optimizada",
+        "description": "Filtrado de firewall bajo 50ms – sin latencia perceptible."
+      }
+    },
+    "stats": {
+      "title": "Resultados a nivel empresarial",
+      "description": "Nuestra firewall entrega resultados medibles de inmediato.",
+      "coverage": {
+        "value": "99.9%",
+        "label": "Cobertura de Seguridad"
+      },
+      "latency": {
+        "value": "<50ms",
+        "label": "Tiempo de Respuesta"
+      },
+      "uptime": {
+        "value": "99.9%",
+        "label": "SLA de Uptime"
+      },
+      "compliance": {
+        "value": "100%",
+        "label": "Listo para Compliance"
+      }
+    },
+    "firewallIntro": {
+      "title": "Quantum Neural Shield – Firewall Neural IA",
+      "description": "SIGMACODE combina agentes de IA y workflows con seguridad garantizada. Cada entrada, cada paso y cada respuesta se analiza, valida y protege mediante filtro pre/post en tiempo real.",
+      "badge": "Firewall‑Powered Agents",
+      "badges": {
+        "sigmaguard": "SIGMAGUARD™",
+        "kong": "Kong Gateway",
+        "sigmacode": "SIGMACODE IA",
+        "rbac": "Control de Acceso Basado en Roles"
+      },
+      "ctaChat": "Chatea con un experto",
+      "ctaHow": "Cómo funciona",
+      "requestFlow": {
+        "title": "Cómo funciona la firewall",
+        "client": "Cliente",
+        "firewallPre": "Firewall Pre-Check",
+        "firewallPreDesc": "Las solicitudes entrantes se validan, filtran y cotejan con políticas.",
+        "sigmacode": "SIGMACODE Core",
+        "sigmacodeDesc": "La solicitud se procesa, optimiza y protege.",
+        "firewallPost": "Firewall Post-Check",
+        "firewallPostDesc": "Las respuestas se verifican, se eliminan datos sensibles y se aplican políticas.",
+        "response": "Respuesta",
+        "auditNote": "Todos los pasos se registran de forma auditada."
+      }
+    },
+    "useCases": {
+      "title": "24+ Casos de uso optimizados por industria",
+      "description": "Agentes firewall‑protegidos para cada industria – listos para usar inmediatamente.",
+      "healthcare": {
+        "title": "🏥 IA de Salud",
+        "desc": "Soporte diagnóstico conforme a HIPAA con protección de datos de pacientes",
+        "metric": "100% conforme a HIPAA"
+      },
+      "finance": {
+        "title": "💰 Trading Financiero",
+        "desc": "Trading algorítmico conforme a MiFID II con cumplimiento en tiempo real",
+        "metric": "Latencia sub‑100ms"
+      },
+      "government": {
+        "title": "🏛️ IA Gubernamental",
+        "desc": "IA administrativa conforme a DSGVO con protección de datos ciudadanos",
+        "metric": "100% conforme a DSGVO"
+      },
+      "infrastructure": {
+        "title": "⚡ Infraestructura Crítica",
+        "desc": "IA sin downtime para energía y transporte con seguridad OT/IT",
+        "metric": "Zero Downtime"
+      },
+      "pharma": {
+        "title": "🧬 I+D Farmacéutico",
+        "desc": "Investigación farmacéutica conforme a FDA 21 CFR Part 11 con protección IP",
+        "metric": "100% conforme a FDA"
+      },
+      "pii": {
+        "title": "🔒 Redacción PII Firewall",
+        "desc": "Detección automática PII y redacción en tiempo real",
+        "metric": "99.9% Precisión"
+      },
+      "soc2": {
+        "title": "📋 Recolector de Evidencia SOC2",
+        "desc": "Cumplimiento SOC2 automático y recopilación de evidencia",
+        "metric": "100% listo para SOC2"
+      },
+      "multiagent": {
+        "title": "🎯 Sistemas Multi‑Agente",
+        "desc": "Agentes orquestados para workflows complejos",
+        "metric": "∞ Escalado Auto"
+      },
+      "moreInfo": "Más información"
+    },
+    "benefits": {
+      "title": "Resultados en días, no meses",
+      "description": "Nuestros clientes ven mejoras medibles en la primera semana generalmente.",
+      "time": {
+        "title": "Ahorra más de 40 horas por semana",
+        "description": "Automatiza tareas rutinarias y enfócate en el crecimiento",
+        "metric": "40+ hrs ahorradas"
+      },
+      "cost": {
+        "title": "Reduce costos operativos en 60%",
+        "description": "Los agentes de IA trabajan 24/7 – sin pausas",
+        "metric": "−60% Costos"
+      },
+      "revenue": {
+        "title": "Incrementa ingresos en 35%",
+        "description": "Ejecución más rápida y mejores decisiones",
+        "metric": "+35% Ingresos"
+      },
+      "security": {
+        "title": "100% seguro y compliant",
+        "description": "Seguridad Empresarial con SOC 2, GDPR y HIPAA",
+        "metric": "100% seguro"
+      }
+    },
+    "pricing": {
+      "title": "Pricing flexible para cada fase",
+      "description": "Comienza gratis y escala de forma segura. Listo para SOC 2, características empresariales según necesidad.",
+      "starter": {
+        "name": "Starter",
+        "description": "Para pruebas y PoCs",
+        "price": "$0",
+        "period": "/Mes",
+        "features": ["1 Workspace", "Firewall básica", "Audit-Logs (7 días)", "Soporte por email"],
+        "cta": "Comenzar"
+      },
+      "professional": {
+        "name": "Professional",
+        "description": "Para equipos en crecimiento",
+        "price": "$49",
+        "period": "/Mes",
+        "badge": "Popular",
+        "features": [
+          "Todo de Starter",
+          "Firewall extendida + Redacción PII",
+          "Control de acceso basado en roles (RBAC)",
+          "Audit-Logs (90 días)"
+        ],
+        "cta": "Probar Pro"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "Para grandes empresas con requisitos específicos",
+        "price": "Personalizado",
+        "features": [
+          "Solicitudes ilimitadas",
+          "Modo Enforce completo",
+          "SOC 2, GDPR, HIPAA",
+          "Soporte 24/7",
+          "Opción On-Premise"
+        ],
+        "cta": "Contactar"
+      },
+      "demo": "Solicitar demo"
+    },
+    "premiumFeatures": {
+      "headerBadge": "Especificaciones técnicas",
+      "headerTitleLead": "Infraestructura KI",
+      "headerTitleStrong": "a nivel empresarial",
+      "headerSubtitle": "Plataforma KI de vanguardia con rendimiento sub‑100ms, seguridad a nivel empresarial y monitoreo integral.",
+      "categories": {
+        "all": "Todas las funciones",
+        "security": "Seguridad",
+        "performance": "Rendimiento",
+        "architecture": "Arquitectura",
+        "monitoring": "Monitoreo"
+      },
+      "docButton": "Ver documentación",
+      "trustedBy": "Confiado por 500+ empresas a nivel mundial",
+      "startFree": "Comenzar gratis",
+      "scheduleDemo": "Programar demo",
+      "technicalImplementation": "Implementación técnica",
+      "items": {
+        "firewall": {
+          "title": "Protección Firewall IA",
+          "subtitle": "Filtrado en tiempo real sub‑50ms"
+        },
+        "gateway": {
+          "title": "API Gateway (Kong)",
+          "subtitle": "TLS • Routing • Rate Limits"
+        },
+        "orchestration": {
+          "title": "Orquestación Multi‑Agente",
+          "subtitle": "Load Balancing inteligente"
+        },
+        "auditTrail": {
+          "title": "Audit Trail inmutable",
+          "subtitle": "Conforme a GDPR y SOC 2"
+        },
+        "monitoring": {
+          "title": "Monitoreo en tiempo real",
+          "subtitle": "Dashboard de métricas live"
+        },
+        "latency": {
+          "title": "Latencia ultra‑baja",
+          "subtitle": "Rendimiento empresarial"
+        },
+        "zerotrust": {
+          "title": "Seguridad Zero‑Trust",
+          "subtitle": "Protección a nivel empresarial"
+        }
+      }
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "description": "Respuestas a las preguntas más importantes sobre seguridad, cumplimiento y rendimiento."
+    }
+  },
+  "dashboardPage": {
+    "header": {
+      "title": "Resumen del producto",
+      "subtitle": "Inicio rápido en chat, agentes y firewall – todo visible públicamente"
+    },
+    "tiles": {
+      "publicBadge": "Público",
+      "adminBadge": "Admin",
+      "button": {
+        "open": "Abrir",
+        "locked": "Bloqueado",
+        "lockedTitle": "Solo para administradores"
+      },
+      "chat": {
+        "title": "Chat",
+        "desc": "Conversaciones con guardrails – instancia de chatbot integrada.",
+        "href": "/chat"
+      },
+      "agents": {
+        "title": "Agentes",
+        "desc": "Resumen y detalles de agentes con firewall.",
+        "href": "/agents"
+      },
+      "firewall": {
+        "title": "Firewall",
+        "desc": "Guardrails, políticas y explicaciones.",
+        "href": "/firewall"
+      },
+      "monitor": {
+        "title": "Monitor de Firewall",
+        "desc": "Eventos live (pre/post/shadow) – solo admin.",
+        "href": "/dashboard/firewall"
+      }
+    },
+    "quickstart": {
+      "title": "Inicio rápido",
+      "step1": "Abre el <link>Chat</link> y comienza una conversación de prueba.",
+      "step2": "Ve a <link>Firewall</link> y mira los ejemplos de política.",
+      "step3": "Si eres admin: Inicia el <link>Monitor live</link> y observa eventos."
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Bienvenido de vuelta, {name}",
+    "activity": "Actividades",
+    "securityStatus": "Estado de seguridad",
+    "activeAgents": "Agentes activos",
+    "blockedThreats": "Amenazas bloqueadas",
+    "complianceScore": "Puntuación de cumplimiento",
+    "lastUpdated": "Última actualización",
+    "nav": {
+      "core": "Núcleo",
+      "build": "Construir",
+      "security": "Seguridad",
+      "admin": "Admin",
+      "overview": "Resumen",
+      "chat": "Chat",
+      "agents": "Agentes",
+      "workflows": "Flujos de trabajo",
+      "knowledge": "Conocimiento",
+      "models": "Modelos",
+      "tools": "Herramientas",
+      "firewall": "Firewall",
+      "settings": "Configuraciones",
+      "logout": "Cerrar sesión",
+      "checking": "Verificando",
+      "online": "En línea",
+      "offline": "Fuera de línea"
+    },
+    "overview": {
+      "title": "Dashboard",
+      "subtitle": "Vista inteligente de tus agentes de IA, flujos de trabajo y actividades del firewall.",
+      "aiAgents": "Agentes de IA",
+      "activeAgents": "Agentes activos",
+      "workflows": "Flujos de trabajo",
+      "automations": "Automatizaciones",
+      "executions": "Ejecuciones",
+      "executedToday": "Ejecutado hoy",
+      "firewall": "Firewall",
+      "threatsBlocked": "Amenazas bloqueadas",
+      "quickActions": "Acciones rápidas",
+      "newAgent": "Nuevo agente",
+      "newWorkflow": "Nuevo flujo de trabajo",
+      "startChat": "Iniciar chat",
+      "firewallOverview": "Resumen del firewall",
+      "settings": "Configuraciones",
+      "recentActivity": "Actividad reciente",
+      "noActivities": "Sin actividades"
+    },
+    "handbook": {
+      "needHelp": "¿Necesitas ayuda?",
+      "learnHow": "Aprende cómo crear agentes, asignar herramientas y optimizar tus flujos de trabajo.",
+      "searchHelp": "Busca ayuda o documentación...",
+      "openHandbook": "Abrir manual",
+      "aiAssistant": "Asistente de IA",
+      "goToPage": "Ir a la página"
+    },
+    "quickActions": {
+      "title": "Acciones rápidas",
+      "newAgent": "Nuevo agente",
+      "firewall": "Verificar firewall",
+      "startChat": "Iniciar chat",
+      "settings": "Configuraciones",
+      "moreTools": "Más herramientas",
+      "statusNavigating": "Navegando a {target} …",
+      "statusFocused": "Enlace {target} enfocado"
+    },
+    "stats": {
+      "aiAgents": "Agentes de IA",
+      "firewallEvents": "Eventos de firewall",
+      "apiRequests": "Solicitudes de API",
+      "systemHealth": "Estado del sistema"
+    },
+    "layout": {
+      "back": "Atrás",
+      "backendStatus": "Estado del backend",
+      "checking": "Verificando",
+      "online": "En línea",
+      "offline": "Fuera de línea",
+      "latency": "Latencia",
+      "model": "Modelo",
+      "home": "Dashboard",
+      "firewallLabel": "Firewall: {mode}",
+      "firewall": {
+        "enforce": "Aplicación",
+        "shadow": "Sombra",
+        "off": "Apagado"
+      }
+    }
+  },
+  "common": {
+    "loading": "Cargando…",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "view": "Ver",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "close": "Cerrar",
+    "open": "Abrir",
+    "yes": "Sí",
+    "no": "No",
+    "ok": "OK",
+    "confirm": "Confirmar",
+    "back": "Atrás",
+    "home": "Inicio",
+    "dashboard": "Dashboard",
+    "settings": "Configuraciones",
+    "profile": "Perfil",
+    "overview": "Resumen",
+    "security": "Seguridad",
+    "language": "Idioma"
+  },
+  "firewall": {
+    "title": "Firewall",
+    "mode": {
+      "test": "Modo de prueba",
+      "enforce": "Modo de aplicación"
+    },
+    "testModeDescription": "En modo de prueba, todas las acciones se supervisan pero no se bloquean.",
+    "enforceModeDescription": "En modo de aplicación, se bloquean las acciones inseguras.",
+    "realtimeProtection": "Protección en tiempo real mediante filtros pre/post",
+    "live": "Dashboard live",
+    "modes": "Modos",
+    "onboarding": "Incorporación",
+    "audit": "Auditoría",
+    "security": "Seguridad",
+    "fast": "Rápido",
+    "auditable": "Auditable",
+    "fewMinutesActive": "Listo para usar en pocos minutos – sin downtime",
+    "testModeTitle": "Shadow / Modo de prueba",
+    "testModeBenefits": "Pruebas sin riesgo: visibilidad completa sin bloqueo",
+    "clearRecommendations": "Recomendaciones claras para políticas y umbrales",
+    "perfectForRiskFreeStart": "Ideal para comenzar sin riesgos",
+    "enforceModeTitle": "Modo de aplicación",
+    "enforceModeBenefits": "Las políticas se aplican estrictamente – se bloquean las acciones inseguras",
+    "rbacLimitsContentValidation": "RBAC, límites de tasa y validación de contenido",
+    "allowBlockWithReasoning": "Permitir/Bloquear con razonamiento y puntuación de confianza",
+    "quickStart": "Inicio rápido",
+    "step1Activate": "Paso 1: Activar firewall",
+    "activateFirewall": "FIREWALL_ENABLED",
+    "shadowMode": "FIREWALL_MODE",
+    "step2Connect": "Paso 2: Conectar backend",
+    "superagentUrl": "SUPERAGENT_URL",
+    "superagentApiKey": "SUPERAGENT_API_KEY",
+    "optionalTechnicalDetails": "Detalles técnicos opcionales",
+    "everyCallGetsId": "Cada solicitud recibe una x-request-id única y se registra de forma auditada.",
+    "transparentLogging": "Registros de auditoría transparentes",
+    "whatIsRecorded": "¿Qué se registra?",
+    "howDecisionsLook": "¿Cómo se ven las decisiones?",
+    "backToOverview": "Volver al resumen",
+    "dashboard": {
+      "errorTitle": "Error al cargar métricas",
+      "noMetrics": "No hay métricas disponibles",
+      "totalRequests": "Solicitudes totales",
+      "increaseVsLastHour": "+{percentage}% vs. última hora",
+      "blockedRequests": "Solicitudes bloqueadas",
+      "percentageOfTotal": "{percentage}% del total",
+      "avgLatency": "Latencia promedio",
+      "errorRate": "Tasa de error",
+      "decreaseVsLastHour": "−{ms}ms vs. última hora",
+      "withinNormalRange": "Dentro del rango normal",
+      "topThreats": "Principales amenazas",
+      "systemHealth": "Estado del sistema",
+      "status": "Estado",
+      "enabled": "Activado",
+      "disabled": "Desactivado",
+      "mode": "Modo",
+      "allowed": "Permitido"
+    }
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "signup": "Registrarse",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "resetPassword": "Restablecer contraseña"
+  },
+  "blog": {
+    "title": "Blog",
+    "readMore": "Leer más",
+    "latestPosts": "Últimas publicaciones"
+  },
+  "cta": {
+    "primary": "Comenzar ahora",
+    "secondary": "Más información",
+    "contact": "Contactar"
+  },
+  "navigation": {
+    "products": "Productos",
+    "useCases": "Casos de uso",
+    "security": "Seguridad",
+    "resources": "Recursos",
+    "company": "Empresa",
+    "productsOverview": "Resumen de productos (USPs)",
+    "firewall": "Firewall Neural",
+    "analytics": "Analytics",
+    "agents": "Agentes",
+    "mas": "MAS",
+    "robotics": "Robotics",
+    "appstore": "App Store",
+    "chat": "Chat",
+    "docs": "Docs",
+    "changelog": "Changelog",
+    "integrations": "Integraciones",
+    "pricing": "Pricing",
+    "contact": "Contacto"
+  },
+  "robotics": {
+    "badge": "Robotics",
+    "title": "Robotics – Sistemas autónomos con protección firewall",
+    "subtitle": "De robots singulares a flotas coordinadas: planificación, percepción y ejecución segura – con políticas, rollout Shadow→Enforce y decisiones auditables.",
+    "nav": {
+      "overview": "Resumen",
+      "features": "Características",
+      "safety": "Seguridad",
+      "demo": "Demo"
+    },
+    "overview": "Robotics necesita seguridad desde el primer frame: Combinamos percepción, planificación y control con una firewall neural integral. Shadow→Enforce permite rollout sin riesgos, mientras que políticas y registros de auditoría hacen cada acción rastreable.",
+    "features": {
+      "sensorfusion": {
+        "title": "Fusión de sensores en tiempo real",
+        "desc": "Fusión de cámara, Lidar, IMU y telemetría – percepción robusta incluso en entornos complejos y dinámicos."
+      },
+      "planning": {
+        "title": "Planificar y ejecutar",
+        "desc": "De tareas de alto nivel a trayectorias seguras y verificables. Las políticas previenen acciones peligrosas."
+      },
+      "multiagent": {
+        "title": "Coordinación multi‑agente",
+        "desc": "Equipos orquestados con roles, comunicación y resolución de conflictos – escalable y resiliente."
+      },
+      "firewall": {
+        "title": "Protección firewall neural",
+        "desc": "Filtros pre/post para datos de sensores, comandos y efectores. Shadow→Enforce permite implementación segura."
+      },
+      "twins": {
+        "title": "Gemelos digitales y simulación",
+        "desc": "Políticas validadas y rutas en simulación – antes de que los sistemas reales se vean afectados."
+      },
+      "safety": {
+        "title": "Seguridad y cumplimiento",
+        "desc": "Decisiones rastreables, RBAC y registros de auditoría – compatibles con estándares de seguridad industrial."
+      }
+    },
+    "safety": {
+      "title": "Seguridad y gobernanza",
+      "policiesTitle": "Políticas",
+      "policiesDesc": "Reglas basadas en restricciones para zonas, velocidades, interacciones y parada de emergencia – por robot y flota.",
+      "auditTitle": "Auditoría y trazas",
+      "auditDesc": "Cada decisión está versionada y rastreable – perfecta para certificación y respuesta a incidentes."
+    },
+    "cta": {
+      "title": "Solicitar demo: Robotics con firewall",
+      "desc": "Experimente autonomía segura – desde simulación hasta operación de flota.",
+      "contact": "Contactar"
+    }
+  },
+  "appstore": {
+    "badge": "App Store",
+    "title": "Extensiones e integraciones – curadas, seguras, listas para usar rápidamente",
+    "subtitle": "Instala apps y pipelines verificadas en minutos: Versionadas, con permisos transparentes y totalmente compatibles con la firewall neural (Shadow→Enforce).",
+    "nav": {
+      "overview": "Resumen",
+      "features": "Características",
+      "publishing": "Publicación",
+      "cta": "Contacto"
+    },
+    "overview": "Instala extensiones curadas y pipelines prefabricadas en minutos – con permisos transparentes, versionado, reseñas y compatibilidad total con la firewall neural (Shadow→Enforce).",
+    "features": {
+      "curated": {
+        "title": "Apps curadas",
+        "desc": "De kits de cumplimiento a pipelines de investigación – calidad verificada, changelogs claros y soporte."
+      },
+      "integrations": {
+        "title": "100+ integraciones",
+        "desc": "Conecta almacenes de datos, APIs y herramientas. Seguro mediante RBAC y scopes detallados."
+      },
+      "pipelines": {
+        "title": "Plantillas y pipelines",
+        "desc": "Workflows listos para deploy con versionado, rollbacks y control de costos."
+      },
+      "reviews": {
+        "title": "Revisiones de seguridad",
+        "desc": "Cada app se verifica con políticas, permisos y transparencia de auditoría."
+      },
+      "install": {
+        "title": "Instalación 1‑Click",
+        "desc": "Prueba en modo sombra, luego Enforce – sin downtime, con auditoría completa."
+      },
+      "licensing": {
+        "title": "Licencias flexibles",
+        "desc": "Add-ons gratuitos, Pro o Enterprise – administrados centralmente, facturados de forma transparente."
+      }
+    },
+    "publishing": {
+      "title": "Publicación y revisiones",
+      "submissionTitle": "Flujo de envío",
+      "submissionDesc": "Envía apps con scopes claros, changelogs y SemVer. Verificaciones automatizadas para políticas y seguridad.",
+      "verifyTitle": "Verificación y firmas",
+      "verifyDesc": "Artefactos firmados, integridad verificable y trails de auditoría. Rollouts en modo sombra, luego Enforce."
+    },
+    "cta": {
+      "title": "Enviar app o sugerir integración",
+      "desc": "Forma parte del ecosistema: apps seguras y curadas – compatibles con la firewall neural.",
+      "contact": "Contactar"
+    }
+  },
+  "pricingUI": {
+    "errorCheckoutTitle": "Checkout fallido",
+    "savingPercent": "Ahorra {percent}%",
+    "effectiveLabel": "Efectivo {price}",
+    "opening": "Abriendo…",
+    "contact": "Contacto",
+    "select": "Seleccionar",
+    "recommendedBadge": "Recomendado",
+    "ctaMonthlyNote": "Cancelable mensualmente",
+    "ctaYearlyNote": "20% más barato que mensual",
+    "effectiveBadge": "Efectivo {price}"
+  }
+}

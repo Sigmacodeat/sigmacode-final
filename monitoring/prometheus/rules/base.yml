@@ -1,0 +1,29 @@
+groups:
+  - name: base-alerts
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Instance down: {{ $labels.instance }}'
+          description: '{{ $labels.job }} on {{ $labels.instance }} is down for more than 2 minutes.'
+
+      - alert: HighContainerCPU
+        expr: sum by (container_label_com_docker_compose_service) (rate(container_cpu_usage_seconds_total{container_label_com_docker_compose_service!=""}[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'High CPU usage in container'
+          description: 'Container {{ $labels.container_label_com_docker_compose_service }} CPU usage > 1 core for 5m'
+
+      - alert: HighContainerMemory
+        expr: sum by (container_label_com_docker_compose_service) (container_memory_working_set_bytes{container_label_com_docker_compose_service!=""}) > 1.5e+9
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'High memory usage in container'
+          description: 'Container {{ $labels.container_label_com_docker_compose_service }} memory > 1.5 GB for 10m'

@@ -1,0 +1,46 @@
+_format_version: '3.0'
+_transform: true
+
+# Minimal DB-less Konfiguration
+services:
+  - name: httpbin
+    url: https://httpbin.org
+    routes:
+      - name: httpbin-route
+        paths:
+          - /httpbin
+  - name: sigmacode-web
+    host: host.docker.internal
+    port: 3000
+    protocol: http
+    routes:
+      - name: web-route
+        hosts: [app.localhost]
+        paths:
+          - /
+        preserve_host: true
+        protocols: [http, https]
+        https_redirect_status_code: 301
+  - name: sigmacode-api
+    host: host.docker.internal
+    port: 3000
+    protocol: http
+    routes:
+      - name: sigmacode-api-route
+        hosts: [api.localhost]
+        paths:
+          - /
+        strip_path: false
+        preserve_host: true
+        protocols: [http, https]
+
+routes: []
+plugins:
+  - name: rate-limiting
+    config:
+      minute: 100
+      limit_by: ip
+      policy: local
+  - name: prometheus
+    enabled: true
+# TLS-Terminierung (bereits in Compose definiert)

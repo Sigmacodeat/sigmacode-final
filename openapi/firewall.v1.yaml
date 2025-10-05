@@ -1,0 +1,802 @@
+openapi: 3.1.0
+info:
+  title: SIGMACODE Neural Firewall API
+  version: 1.0.0
+  description: >
+    Core-Endpoints für AI-Validation (Guardrail-Generator), Text-/File-Scanning mit Redaction
+    und Policy-Sync (Edge/On-Prem). Integriert die Firewall-Entscheidungen (allow/block/sanitize),
+    Shadow-Mode-Unterstützung und Request-Korrelation (x-request-id).
+
+servers:
+  - url: https://api.sigmacode.ai
+    description: Production
+  - url: https://staging.api.sigmacode.ai
+    description: Staging
+  - url: http://localhost:3000
+    description: Local Dev
+
+tags:
+  - name: validation
+    description: Pre-Deployment Validierung (Fuzzing/Assessment) → Guardrail-Empfehlungen
+  - name: scanning
+    description: Text- und File-Scanning mit Findings und optionaler Redaction
+  - name: policies
+    description: Policy-Distribution und -Synchronisation (Edge/Workers/On-Prem)
+  - name: observability
+    description: Korrelation, Logging, Metriken (indirekt relevant für Clients)
+
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    XRequestId:
+      name: x-request-id
+      in: header
+      required: false
+      description: Client- oder Server-generierte Korrelations-ID
+      schema:
+        type: string
+    FirewallMode:
+      name: x-firewall-mode
+      in: header
+      required: false
+      description: Override für Betriebsmodus (enforce|shadow|off), sonst Server-Default
+      schema:
+        type: string
+        enum: [enforce, shadow, off]
+
+  responses:
+    UnauthorizedError:
+      description: Unauthorized
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    ForbiddenError:
+      description: Forbidden
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    BlockedByFirewall:
+      description: Blocked by firewall
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/DecisionResponse' }
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error: { type: string }
+        code: { type: string }
+        details:
+          type: object
+          additionalProperties: true
+      required: [error, code]
+
+    Decision:
+      type: string
+      enum: [allow, block, sanitize]
+
+    DecisionMeta:
+      type: object
+      properties:
+        requestId: { type: string }
+        backend: { type: string, description: 'e.g., superagent|dify|edge' }
+        mode: { type: string, enum: [enforce, shadow, off] }
+        latencyMs: { type: integer }
+        policy: { type: string }
+        reason: { type: string }
+        threats:
+          type: array
+          items:
+            type: string
+      required: [mode]
+
+    DecisionResponse:
+      type: object
+      properties:
+        decision: { $ref: '#/components/schemas/Decision' }
+        sanitizedPayload:
+          type: string
+          nullable: true
+        findings:
+          type: array
+          items: { $ref: '#/components/schemas/Finding' }
+        meta: { $ref: '#/components/schemas/DecisionMeta' }
+      required: [decision, meta]
+
+    ModelRef:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: 'openai|anthropic|google|meta|custom'
+        model: { type: string }
+        parameters:
+          type: object
+          additionalProperties: true
+      required: [model]
+
+    ValidateRequest:
+      type: object
+      properties:
+        model: { $ref: '#/components/schemas/ModelRef' }
+        samplePrompts:
+          type: array
+          items: { type: string }
+        objectives:
+          type: array
+          items:
+            type: string
+            description: 'e.g., prevent PII leakage, block jailbreaks...'
+        budget:
+          type: object
+          properties:
+            maxTests: { type: integer, default: 500 }
+            maxDurationSec: { type: integer, default: 60 }
+        context:
+          type: object
+          additionalProperties: true
+      required: [model, samplePrompts]
+
+    Guardrail:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        type:
+          type: string
+          enum: [input_filter, output_filter, context_check, format_validation]
+        condition: { type: string }
+        action:
+          type: string
+          enum: [block, sanitize, warn, transform]
+        priority: { type: integer, default: 1 }
+        enabled: { type: boolean, default: true }
+        metadata:
+          type: object
+          additionalProperties: true
+
+    ValidateResult:
+      type: object
+      properties:
+        score: { type: number, description: '0..1 risk score (lower is safer)' }
+        vulnerabilities:
+          type: array
+          items:
+            type: object
+            properties:
+              type: { type: string }
+              severity: { type: string, enum: [low, medium, high, critical] }
+              example: { type: string }
+              recommendation: { type: string }
+        recommendedGuardrails:
+          type: array
+          items: { $ref: '#/components/schemas/Guardrail' }
+        reportUrl:
+          type: string
+          nullable: true
+
+    ValidateResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        result: { $ref: '#/components/schemas/ValidateResult' }
+        meta: { $ref: '#/components/schemas/DecisionMeta' }
+      required: [success, result]
+
+    Detector:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        type:
+          type: string
+          description: 'regex|ml|heuristic|composite'
+        severity: { type: string, enum: [low, medium, high, critical] }
+        redact: { type: boolean, default: true }
+        config:
+          type: object
+          additionalProperties: true
+      required: [id, name, type, severity]
+
+    Finding:
+      type: object
+      properties:
+        detectorId: { type: string }
+        type: { type: string }
+        severity: { type: string, enum: [low, medium, high, critical] }
+        match:
+          type: object
+          properties:
+            value: { type: string }
+            start: { type: integer, nullable: true }
+            end: { type: integer, nullable: true }
+        recommendation: { type: string }
+      required: [detectorId, type, severity, match]
+
+    ScanTextRequest:
+      type: object
+      properties:
+        text: { type: string }
+        detectors:
+          type: array
+          items: { type: string, description: 'detectorId' }
+        redact: { type: boolean, default: true }
+        context:
+          type: object
+          additionalProperties: true
+      required: [text]
+
+    ScanTextResponse:
+      type: object
+      properties:
+        findings:
+          type: array
+          items: { $ref: '#/components/schemas/Finding' }
+        redactedText:
+          type: string
+          nullable: true
+        decision:
+          $ref: '#/components/schemas/Decision'
+        meta:
+          $ref: '#/components/schemas/DecisionMeta'
+      required: [findings, decision]
+
+    ScanFileResponse:
+      type: object
+      properties:
+        findings:
+          type: array
+          items: { $ref: '#/components/schemas/Finding' }
+        redactedFileUrl:
+          type: string
+          nullable: true
+        decision:
+          $ref: '#/components/schemas/Decision'
+        meta:
+          $ref: '#/components/schemas/DecisionMeta'
+      required: [findings, decision]
+
+    Policy:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        version: { type: string }
+        mode:
+          type: string
+          enum: [enforce, shadow, off]
+        rules:
+          type: array
+          items: { $ref: '#/components/schemas/Guardrail' }
+        updatedAt: { type: string, format: date-time }
+      required: [id, name, version, mode, rules]
+
+    PolicyCreate:
+      type: object
+      properties:
+        name: { type: string }
+        mode: { type: string, enum: [enforce, shadow, off], default: enforce }
+        rules:
+          type: array
+          items: { $ref: '#/components/schemas/Guardrail' }
+      required: [name, mode, rules]
+
+    PolicyUpdate:
+      type: object
+      properties:
+        name: { type: string }
+        mode: { type: string, enum: [enforce, shadow, off] }
+        rules:
+          type: array
+          items: { $ref: '#/components/schemas/Guardrail' }
+
+    PolicyResponse:
+      type: object
+      properties:
+        policy: { $ref: '#/components/schemas/Policy' }
+
+    PoliciesListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/Policy' }
+        total: { type: integer }
+      required: [data, total]
+
+    FirewallConfig:
+      type: object
+      properties:
+        isEnabled: { type: boolean }
+        mode: { type: string, enum: [enforce, shadow, off] }
+        defaultPolicyId: { type: string, nullable: true }
+        sampling:
+          type: object
+          properties:
+            shadowSampleRate:
+              type: number
+              description: '0..1 Anteil, der im Shadow-Mode gespiegelt wird'
+        updatedAt: { type: string, format: date-time }
+      required: [isEnabled, mode]
+
+    ConfigResponse:
+      type: object
+      properties:
+        config: { $ref: '#/components/schemas/FirewallConfig' }
+        meta: { $ref: '#/components/schemas/DecisionMeta' }
+      required: [config]
+
+    FirewallConfigUpdate:
+      type: object
+      properties:
+        isEnabled: { type: boolean }
+        mode: { type: string, enum: [enforce, shadow, off] }
+        defaultPolicyId: { type: string, nullable: true }
+        sampling:
+          type: object
+          properties:
+            shadowSampleRate:
+              type: number
+
+    PolicySyncRequest:
+      type: object
+      properties:
+        target:
+          type: string
+          description: 'edge:cloudflare|akamai|onprem'
+        policy: { $ref: '#/components/schemas/Policy' }
+        dryRun: { type: boolean, default: false }
+      required: [target, policy]
+
+    PolicySyncResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        target: { type: string }
+        appliedVersion: { type: string }
+        diagnostics:
+          type: array
+          items: { type: string }
+        meta:
+          $ref: '#/components/schemas/DecisionMeta'
+      required: [success, target]
+
+    LogEntry:
+      type: object
+      properties:
+        id: { type: string }
+        ts: { type: string, format: date-time }
+        requestId: { type: string }
+        backend:
+          type: string
+          description: 'dify|superagent|edge|custom'
+        policy: { type: string }
+        action:
+          type: string
+          enum: [allow, block, shadow-allow, shadow-block, sanitize]
+        latencyMs: { type: integer }
+        status: { type: integer }
+        userId: { type: string, nullable: true }
+        meta:
+          type: object
+          additionalProperties: true
+
+    LogsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/LogEntry' }
+        total: { type: integer }
+      required: [data, total]
+
+    StatsResponse:
+      type: object
+      properties:
+        totalRequests: { type: integer }
+        blockedRequests: { type: integer }
+        allowedRequests: { type: integer }
+        averageLatency: { type: integer }
+        threatMatches: { type: integer }
+        topThreats:
+          type: array
+          items:
+            type: object
+            properties:
+              category: { type: string }
+              count: { type: integer }
+        isEnabled: { type: boolean }
+        mode:
+          type: string
+          enum: [enforce, shadow, off]
+
+paths:
+  /validate:
+    post:
+      tags: [validation]
+      summary: Validate model with sample prompts and generate guardrail recommendations
+      operationId: validateModel
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+        - $ref: '#/components/parameters/FirewallMode'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ValidateRequest' }
+      responses:
+        '200':
+          description: Validation completed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ValidateResponse' }
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+
+  /firewall/policies:
+    get:
+      tags: [policies]
+      summary: List policies
+      operationId: listPolicies
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, default: 100, minimum: 1, maximum: 500 }
+        - name: offset
+          in: query
+          required: false
+          schema: { type: integer, default: 0, minimum: 0 }
+      responses:
+        '200':
+          description: Policies list
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PoliciesListResponse' }
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+    post:
+      tags: [policies]
+      summary: Create policy
+      operationId: createPolicy
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PolicyCreate' }
+      responses:
+        '201':
+          description: Policy created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PolicyResponse' }
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+
+  /firewall/policies/{id}:
+    get:
+      tags: [policies]
+      summary: Get a policy
+      operationId: getPolicy
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Policy
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PolicyResponse' }
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+    patch:
+      tags: [policies]
+      summary: Update a policy
+      operationId: updatePolicy
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PolicyUpdate' }
+      responses:
+        '200':
+          description: Policy updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PolicyResponse' }
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+    delete:
+      tags: [policies]
+      summary: Delete a policy
+      operationId: deletePolicy
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: Policy deleted
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+
+  /firewall/config:
+    get:
+      tags: [policies]
+      summary: Get firewall config
+      operationId: getFirewallConfig
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+      responses:
+        '200':
+          description: Config
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConfigResponse' }
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+    put:
+      tags: [policies]
+      summary: Update firewall config
+      operationId: updateFirewallConfig
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/FirewallConfigUpdate' }
+      responses:
+        '200':
+          description: Updated config
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConfigResponse' }
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+
+  /scan_text:
+    post:
+      tags: [scanning]
+      summary: Scan text using detector registry, optionally return redacted text
+      operationId: scanText
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+        - $ref: '#/components/parameters/FirewallMode'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ScanTextRequest' }
+      responses:
+        '200':
+          description: Scan result
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ScanTextResponse' }
+        '451':
+          description: Blocked by firewall
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DecisionResponse' }
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+
+  /scan_file:
+    post:
+      tags: [scanning]
+      summary: Scan an uploaded file with detectors and optional redaction
+      operationId: scanFile
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+        - $ref: '#/components/parameters/FirewallMode'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                detectors:
+                  type: array
+                  items: { type: string }
+                redact:
+                  type: boolean
+                  default: true
+            encoding:
+              file:
+                contentType: application/octet-stream
+      responses:
+        '200':
+          description: File scan result
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ScanFileResponse' }
+        '451':
+          $ref: '#/components/responses/BlockedByFirewall'
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+
+  /policy/sync:
+    post:
+      tags: [policies]
+      summary: Sync a policy to a target (edge/on-prem)
+      operationId: syncPolicy
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PolicySyncRequest' }
+      responses:
+        '200':
+          description: Policy applied (or dry-run diagnostics)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PolicySyncResponse' }
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+
+  /logs:
+    get:
+      tags: [observability]
+      summary: Retrieve firewall logs with filtering and pagination
+      operationId: getLogs
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+        - name: since
+          in: query
+          description: ISO datetime to filter logs after this time
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: backend
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [dify, superagent, edge, custom]
+        - name: policy
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: action
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [allow, block, shadow-allow, shadow-block, sanitize]
+        - name: q
+          in: query
+          required: false
+          description: Search in request IDs
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+            minimum: 1
+            maximum: 500
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [json, csv]
+            default: json
+      responses:
+        '200':
+          description: Logs list (JSON) or CSV download
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LogsResponse' }
+            text/csv:
+              schema:
+                type: string
+                format: binary
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+
+  /stats:
+    get:
+      tags: [observability]
+      summary: Get aggregated firewall statistics
+      operationId: getStats
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+      responses:
+        '200':
+          description: Aggregated statistics
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StatsResponse' }
+        '401': { $ref: '#/components/responses/UnauthorizedError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }

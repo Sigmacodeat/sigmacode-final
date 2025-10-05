@@ -1,0 +1,18 @@
+{
+  "name": "SIGMACODE AI – Security-First AI Platform",
+  "short_name": "SIGMACODE AI",
+  "description": "Enterprise AI automation platform with built-in firewall protection, SOC 2 compliance, and comprehensive security features for businesses worldwide.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1f7bff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/og-image.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

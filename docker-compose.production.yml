@@ -1,0 +1,360 @@
+# SIGMACODE AI - Production Docker Compose
+# Vollständige Integration: Dify Backend + SIGMACODE Frontend
+
+services:
+  # ========================================
+  # PUBLIC ENTRY: KONG API GATEWAY
+  # ========================================
+
+  kong:
+    image: kong:latest
+    restart: always
+    environment:
+      KONG_DATABASE: 'off'
+      KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
+      KONG_PROXY_LISTEN: 0.0.0.0:8000, 0.0.0.0:8443 ssl
+      # Admin nur lokal erreichbar
+      KONG_ADMIN_LISTEN: 127.0.0.1:8001, 127.0.0.1:8444 ssl
+      KONG_LOG_LEVEL: notice
+      KONG_SSL_CERT: /etc/letsencrypt/live/${DOMAIN}/fullchain.pem
+      KONG_SSL_CERT_KEY: /etc/letsencrypt/live/${DOMAIN}/privkey.pem
+    ports:
+      - "80:8000"
+      - "443:8443"
+    volumes:
+      - ./kong:/usr/local/kong/declarative:ro
+      - ./certs:/etc/letsencrypt:ro
+    healthcheck:
+      test: ["CMD", "kong", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - sigmacode-network
+  # ========================================
+  # DIFY BACKEND SERVICES
+  # ========================================
+  
+  # Dify API Server
+  dify-api:
+    build:
+      context: ./dify/api
+      dockerfile: Dockerfile
+    container_name: sigmacode-dify-api
+    restart: always
+    environment:
+      # Mode
+      MODE: api
+      
+      # Database (Shared mit SIGMACODE!)
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: app-db
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE:-sigmacode}
+      
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DB: 0
+      
+      # Celery
+      CELERY_BROKER_URL: redis://:${REDIS_PASSWORD}@redis:6379/1
+      
+      # Storage
+      STORAGE_TYPE: local
+      STORAGE_LOCAL_PATH: /app/storage
+      
+      # Security
+      SECRET_KEY: ${DIFY_SECRET_KEY}
+      
+      # URLs
+      CONSOLE_API_URL: ${CONSOLE_API_URL:-http://localhost:5001}
+      CONSOLE_WEB_URL: ${CONSOLE_WEB_URL:-http://localhost:3000}
+      SERVICE_API_URL: ${SERVICE_API_URL:-http://localhost:5001}
+      APP_WEB_URL: ${APP_WEB_URL:-http://localhost:3000}
+    ports:
+      - "5001:5001"
+    volumes:
+      - dify-storage:/app/storage
+    depends_on:
+      - app-db
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - sigmacode-network
+
+  # Dify Celery Worker
+  dify-worker:
+    build:
+      context: ./dify/api
+      dockerfile: Dockerfile
+    container_name: sigmacode-dify-worker
+    restart: always
+    environment:
+      MODE: worker
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: app-db
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE:-sigmacode}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      CELERY_BROKER_URL: redis://:${REDIS_PASSWORD}@redis:6379/1
+      SECRET_KEY: ${DIFY_SECRET_KEY}
+    volumes:
+      - dify-storage:/app/storage
+    depends_on:
+      - app-db
+      - redis
+    networks:
+      - sigmacode-network
+
+  # ========================================
+  # SIGMACODE FRONTEND
+  # ========================================
+  
+  sigmacode-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: sigmacode-app
+    restart: always
+    environment:
+      NODE_ENV: production
+      
+      # Next.js
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      
+      # Database (Shared!)
+      DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD}@app-db:5432/${DB_DATABASE:-sigmacode}
+      
+      # Dify Integration
+      DIFY_API_URL: http://dify-api:5001
+      DIFY_INTERNAL_URL: http://dify-api:5001
+      
+      # Auth
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      
+      # OAuth
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GITHUB_ID: ${GITHUB_ID}
+      GITHUB_SECRET: ${GITHUB_SECRET}
+      
+      # Billing
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+      
+      # Firewall (Superagent)
+      SUPERAGENT_URL: ${SUPERAGENT_URL:-http://sigmaguard:8000}
+      SUPERAGENT_API_KEY: ${SUPERAGENT_API_KEY}
+      
+      # Features
+      FIREWALL_ENABLED: ${FIREWALL_ENABLED:-true}
+      FIREWALL_MODE: ${FIREWALL_MODE:-enforce}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - app-db
+      - redis
+      - dify-api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - sigmacode-network
+
+  # ========================================
+  # FIREWALL (Sigmaguard - Optional)
+  # ========================================
+  
+  sigmaguard:
+    image: superagent/superagent:latest
+    container_name: sigmacode-firewall
+    restart: always
+    environment:
+      PORT: 8000
+      API_KEY: ${SUPERAGENT_API_KEY}
+      LOG_LEVEL: info
+    ports:
+      - "8000:8000"
+    networks:
+      - sigmacode-network
+
+  # ========================================
+  # DATABASE & CACHE
+  # ========================================
+  
+  # PostgreSQL (Shared Database!)
+  app-db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE:-sigmacode}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.UTF-8"
+    ports:
+      - "5555:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sigmacode-network
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    restart: always
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sigmacode-network
+
+  # ========================================
+  # MONITORING (Optional)
+  # ========================================
+  
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: sigmacode-prometheus
+    restart: always
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - sigmacode-network
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: always
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GF_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_ADMIN_PASSWORD:-admin}
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - prometheus
+    networks:
+      - sigmacode-network
+
+  # ========================================
+  # VAULT (PRODUCTION - non-dev)
+  # ========================================
+
+  vault:
+    image: hashicorp/vault:latest
+    restart: always
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_ADDR: http://0.0.0.0:8200
+    command: vault server -config=/vault/config/local.json
+    ports:
+      - "8200:8200"
+    volumes:
+      - vault-data:/vault/file
+      - ./vault/config:/vault/config:ro
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8200/v1/sys/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sigmacode-network
+
+  # ========================================
+  # CERTBOT (Let's Encrypt) - DNS-01 Cloudflare
+  # ========================================
+
+  certbot:
+    image: certbot/certbot:latest
+    restart: always
+    environment:
+      CERTBOT_EMAIL: ${CERTBOT_EMAIL}
+      CLOUDFLARE_API_TOKEN_FILE: /run/secrets/cloudflare_api_token
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./certs:/etc/letsencrypt
+      - ./certbot/data:/var/www/certbot
+    entrypoint: |
+      /bin/sh -c '
+      trap exit TERM;
+      while :; do
+        if [ -f /run/secrets/cloudflare_api_token ]; then
+          certbot renew --dns-cloudflare --dns-cloudflare-credentials ${CLOUDFLARE_API_TOKEN_FILE};
+        else
+          echo "Cloudflare token secret missing, skipping renew";
+        fi;
+        sleep 12h &
+        wait $${!};
+      done;'
+    secrets:
+      - cloudflare_api_token
+    networks:
+      - sigmacode-network
+
+# ========================================
+# NETWORKS
+# ========================================
+
+networks:
+  sigmacode-network:
+    driver: bridge
+
+# ========================================
+# VOLUMES
+# ========================================
+
+volumes:
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+  dify-storage:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+  vault-data:
+    driver: local
+
+secrets:
+  cloudflare_api_token:
+    file: ./secrets/cloudflare_api_token.txt

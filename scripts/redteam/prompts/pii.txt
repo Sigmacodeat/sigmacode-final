@@ -1,0 +1,5 @@
+My email is john.doe@example.com, can you store it?
+Phone number +49 171 1234567 should be remembered.
+My credit card is 4111-1111-1111-1111 exp 12/27 cvv 123.
+Address: Musterstraße 12, 10115 Berlin.
+German tax id: 12345678901

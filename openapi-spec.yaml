@@ -1,0 +1,1348 @@
+openapi: 3.0.3
+info:
+  title: SIGMACODE AI - ML Threat Detection & Alert System API
+  description: |
+    # SIGMACODE AI Firewall API
+
+    Advanced Machine Learning-powered threat detection and intelligent alert management system.
+
+    ## Features
+
+    - **AI-Powered Threat Detection**: Real-time analysis using multiple ML models
+    - **Behavioral Analysis**: Detects anomalous user behavior patterns
+    - **Smart Alert System**: Intelligent notifications with escalation
+    - **Multi-Channel Notifications**: Email, Slack, Webhook, SMS support
+    - **Training Pipeline**: Continuous learning from new threats
+    - **Performance Monitoring**: Real-time metrics and analytics
+
+    ## Authentication
+
+    All API endpoints require authentication via API key or JWT token.
+
+    ## Rate Limiting
+
+    - ML Analysis: 1000 requests/minute
+    - Alert Management: 500 requests/minute
+    - Training Operations: 100 requests/minute
+
+    ## Support
+
+    For support, contact: inbox@sigmacode.ai
+  version: 1.0.0
+  contact:
+    name: SIGMACODE AI Support
+    email: inbox@sigmacode.ai
+    url: https://sigmacode.ai
+  license:
+    name: Proprietary
+    url: https://sigmacode.ai/license
+
+servers:
+  - url: https://api.sigmacode.ai
+    description: Production server
+  - url: https://staging-api.sigmacode.ai
+    description: Staging server
+  - url: http://localhost:3000
+    description: Local development server
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API Key for authentication
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+        details:
+          type: array
+          items:
+            type: object
+          description: Detailed error information
+        code:
+          type: string
+          description: Error code
+        timestamp:
+          type: string
+          format: date-time
+          description: Error timestamp
+      required:
+        - error
+
+    RequestFeatures:
+      type: object
+      description: Extracted features from request analysis
+      properties:
+        contentLength:
+          type: integer
+          description: Length of request content
+        tokenCount:
+          type: integer
+          description: Estimated token count
+        complexityScore:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: Content complexity score
+        specialCharsRatio:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: Ratio of special characters
+        uppercaseRatio:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: Ratio of uppercase characters
+        containsPII:
+          type: boolean
+          description: Whether content contains PII
+        containsSecrets:
+          type: boolean
+          description: Whether content contains secrets
+        injectionPatterns:
+          type: integer
+          description: Number of injection patterns detected
+        suspiciousKeywords:
+          type: integer
+          description: Number of suspicious keywords
+        requestFrequency:
+          type: number
+          format: float
+          description: Request frequency score
+        timeOfDay:
+          type: number
+          format: float
+          description: Time of day risk score
+        userAgentRisk:
+          type: number
+          format: float
+          description: User agent risk score
+        ipRiskScore:
+          type: number
+          format: float
+          description: IP address risk score
+        endpointRisk:
+          type: number
+          format: float
+          description: Endpoint risk score
+        payloadSize:
+          type: number
+          format: float
+          description: Payload size score
+        headerAnomalies:
+          type: integer
+          description: Number of header anomalies
+
+    ThreatAnalysis:
+      type: object
+      description: ML threat analysis result
+      properties:
+        requestId:
+          type: string
+          description: Unique request identifier
+        modelId:
+          type: string
+          description: ML model used for analysis
+        riskScore:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: Risk score from 0.0 to 1.0
+        confidence:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: Confidence level of the analysis
+        threatType:
+          type: string
+          enum:
+            - prompt_injection
+            - context_leakage
+            - pii_exposure
+            - secret_leakage
+            - malicious_payload
+            - suspicious_pattern
+            - anomaly_behavior
+            - high_complexity
+            - rapid_requests
+            - unusual_tokens
+          description: Type of detected threat
+        predictedAction:
+          type: string
+          enum:
+            - allow
+            - block
+            - challenge
+          description: Recommended action
+        explanation:
+          type: string
+          description: Human-readable explanation
+        features:
+          $ref: '#/components/schemas/RequestFeatures'
+        processingTimeMs:
+          type: integer
+          description: Processing time in milliseconds
+        similarKnownThreats:
+          type: array
+          items:
+            type: string
+          description: IDs of similar known threats
+      required:
+        - requestId
+        - modelId
+        - riskScore
+        - confidence
+        - predictedAction
+        - explanation
+        - features
+        - processingTimeMs
+
+    AlertRule:
+      type: object
+      description: Alert rule configuration
+      properties:
+        id:
+          type: string
+          description: Unique rule identifier
+        name:
+          type: string
+          maxLength: 128
+          description: Rule name
+        description:
+          type: string
+          description: Rule description
+        tenantId:
+          type: string
+          description: Tenant identifier
+        isActive:
+          type: boolean
+          description: Whether rule is active
+        triggerType:
+          type: string
+          enum:
+            - ml_prediction
+            - threshold
+            - pattern
+            - manual
+          description: Type of trigger
+        triggerConfig:
+          type: object
+          description: Trigger configuration
+        severity:
+          type: string
+          enum:
+            - low
+            - medium
+            - high
+            - critical
+          description: Alert severity level
+        channels:
+          type: array
+          items:
+            type: string
+            enum:
+              - email
+              - slack
+              - webhook
+              - sms
+              - dashboard
+          description: Notification channels
+        cooldownMinutes:
+          type: integer
+          minimum: 0
+          maximum: 1440
+          description: Cooldown period in minutes
+        groupSimilar:
+          type: boolean
+          description: Whether to group similar alerts
+        groupWindowMinutes:
+          type: integer
+          minimum: 1
+          maximum: 1440
+          description: Grouping window in minutes
+        createdBy:
+          type: string
+          description: User who created the rule
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+      required:
+        - id
+        - name
+        - tenantId
+        - triggerType
+        - triggerConfig
+        - severity
+        - channels
+
+    Alert:
+      type: object
+      description: Alert instance
+      properties:
+        id:
+          type: string
+          description: Unique alert identifier
+        ruleId:
+          type: string
+          description: Associated rule ID
+        tenantId:
+          type: string
+          description: Tenant identifier
+        title:
+          type: string
+          maxLength: 256
+          description: Alert title
+        message:
+          type: string
+          description: Alert message
+        severity:
+          type: string
+          enum:
+            - low
+            - medium
+            - high
+            - critical
+          description: Alert severity
+        category:
+          type: string
+          enum:
+            - security_threat
+            - system_error
+            - performance_issue
+            - compliance_violation
+            - ml_anomaly
+            - manual_trigger
+          description: Alert category
+        requestId:
+          type: string
+          description: Associated request ID
+        userId:
+          type: string
+          description: Associated user ID
+        ipAddress:
+          type: string
+          description: Source IP address
+        userAgent:
+          type: string
+          description: User agent string
+        mlModelId:
+          type: string
+          description: ML model that triggered alert
+        mlRiskScore:
+          type: number
+          format: float
+          description: ML risk score
+        mlConfidence:
+          type: number
+          format: float
+          description: ML confidence score
+        mlThreatType:
+          type: string
+          description: ML detected threat type
+        context:
+          type: object
+          description: Additional context
+        evidence:
+          type: object
+          description: Supporting evidence
+        status:
+          type: string
+          enum:
+            - new
+            - acknowledged
+            - resolved
+            - dismissed
+          description: Alert status
+        resolvedAt:
+          type: string
+          format: date-time
+          description: Resolution timestamp
+        resolvedBy:
+          type: string
+          description: User who resolved
+        acknowledgedAt:
+          type: string
+          format: date-time
+          description: Acknowledgment timestamp
+        acknowledgedBy:
+          type: string
+          description: User who acknowledged
+        triggeredAt:
+          type: string
+          format: date-time
+          description: Alert trigger time
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+      required:
+        - id
+        - ruleId
+        - tenantId
+        - title
+        - message
+        - severity
+        - category
+        - status
+        - triggeredAt
+        - createdAt
+
+    TrainingJob:
+      type: object
+      description: ML training job
+      properties:
+        id:
+          type: string
+          description: Job identifier
+        modelId:
+          type: string
+          description: Associated model ID
+        status:
+          type: string
+          enum:
+            - pending
+            - running
+            - completed
+            - failed
+          description: Job status
+        progress:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
+          description: Progress percentage
+        totalSamples:
+          type: integer
+          description: Total training samples
+        processedSamples:
+          type: integer
+          description: Processed samples
+        accuracy:
+          type: number
+          format: float
+          description: Model accuracy
+        errorMessage:
+          type: string
+          description: Error message if failed
+        startedAt:
+          type: string
+          format: date-time
+          description: Job start time
+        completedAt:
+          type: string
+          format: date-time
+          description: Job completion time
+      required:
+        - id
+        - modelId
+        - status
+        - progress
+        - startedAt
+
+    AlertStatistics:
+      type: object
+      description: Alert statistics
+      properties:
+        totalAlerts:
+          type: integer
+          description: Total alerts
+        alertsBySeverity:
+          type: object
+          properties:
+            critical:
+              type: integer
+            high:
+              type: integer
+            medium:
+              type: integer
+            low:
+              type: integer
+        alertsByCategory:
+          type: object
+          properties:
+            security_threat:
+              type: integer
+            system_error:
+              type: integer
+            performance_issue:
+              type: integer
+            compliance_violation:
+              type: integer
+            ml_anomaly:
+              type: integer
+            manual_trigger:
+              type: integer
+        resolutionRate:
+          type: number
+          format: float
+          description: Resolution rate percentage
+        avgResolutionTime:
+          type: number
+          format: float
+          description: Average resolution time in minutes
+        recentAlerts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alert'
+      required:
+        - totalAlerts
+        - alertsBySeverity
+        - alertsByCategory
+        - resolutionRate
+        - avgResolutionTime
+
+paths:
+  /api/ml/analyze:
+    post:
+      summary: Analyze request for threats using ML
+      description: |
+        Performs comprehensive ML-powered threat analysis on a request.
+        Uses multiple models to detect various types of threats including
+        prompt injection, PII exposure, secret leakage, and anomalous behavior.
+      tags:
+        - ML Analysis
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                requestId:
+                  type: string
+                  description: Unique request identifier
+                content:
+                  type: string
+                  description: Request content to analyze
+                userId:
+                  type: string
+                  description: User identifier
+                tenantId:
+                  type: string
+                  description: Tenant identifier
+                endpoint:
+                  type: string
+                  description: API endpoint
+                userAgent:
+                  type: string
+                  description: User agent string
+                ipAddress:
+                  type: string
+                  description: IP address
+                headers:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  description: Request headers
+                timestamp:
+                  type: string
+                  format: date-time
+                  description: Request timestamp
+              required:
+                - requestId
+                - content
+                - tenantId
+                - endpoint
+                - timestamp
+      responses:
+        '200':
+          description: Analysis completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreatAnalysis'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/ml/models:
+    get:
+      summary: Get ML models
+      description: |
+        Retrieves information about available ML models for threat detection.
+        Supports filtering by model type and status.
+      tags:
+        - ML Models
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum:
+              - threat_detection
+              - anomaly_detection
+              - behavioral_analysis
+          description: Filter by model type
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum:
+              - training
+              - active
+              - inactive
+              - failed
+          description: Filter by model status
+      responses:
+        '200':
+          description: Models retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  models:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        version:
+                          type: string
+                        type:
+                          type: string
+                        status:
+                          type: string
+                        accuracy:
+                          type: number
+                          format: float
+                        precision:
+                          type: number
+                          format: float
+                        recall:
+                          type: number
+                          format: float
+                        f1Score:
+                          type: number
+                          format: float
+                        trainingDataSize:
+                          type: integer
+                        lastTrained:
+                          type: string
+                          format: date-time
+                        modelMetadata:
+                          type: object
+                        createdAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          type: string
+                          format: date-time
+                  total:
+                    type: integer
+                    description: Total number of models
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/alerts:
+    post:
+      summary: Create alert
+      description: |
+        Creates a new alert based on threat analysis or other triggers.
+        Supports ML-based alerts and manual alert creation.
+      tags:
+        - Alerts
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ruleId:
+                  type: string
+                  description: Alert rule ID
+                tenantId:
+                  type: string
+                  description: Tenant identifier
+                title:
+                  type: string
+                  maxLength: 256
+                  description: Alert title
+                message:
+                  type: string
+                  description: Alert message
+                severity:
+                  type: string
+                  enum:
+                    - low
+                    - medium
+                    - high
+                    - critical
+                  description: Alert severity
+                category:
+                  type: string
+                  enum:
+                    - security_threat
+                    - system_error
+                    - performance_issue
+                    - compliance_violation
+                    - ml_anomaly
+                    - manual_trigger
+                  description: Alert category
+                context:
+                  type: object
+                  properties:
+                    requestId:
+                      type: string
+                    userId:
+                      type: string
+                    ipAddress:
+                      type: string
+                    userAgent:
+                      type: string
+                    endpoint:
+                      type: string
+                    additionalData:
+                      type: object
+                  description: Alert context information
+                channels:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - email
+                      - slack
+                      - webhook
+                      - sms
+                      - dashboard
+                  description: Notification channels
+                escalate:
+                  type: boolean
+                  description: Whether to escalate this alert
+              required:
+                - ruleId
+                - tenantId
+                - title
+                - message
+                - severity
+                - category
+                - context
+      responses:
+        '201':
+          description: Alert created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  alertId:
+                    type: string
+                  message:
+                    type: string
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      summary: Get alerts
+      description: |
+        Retrieves alerts for a specific tenant with optional filtering.
+        Supports pagination and filtering by status, severity, and category.
+      tags:
+        - Alerts
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: tenantId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Tenant identifier
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum:
+              - new
+              - acknowledged
+              - resolved
+              - dismissed
+          description: Filter by alert status
+        - name: severity
+          in: query
+          schema:
+            type: string
+            enum:
+              - low
+              - medium
+              - high
+              - critical
+          description: Filter by alert severity
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum:
+              - security_threat
+              - system_error
+              - performance_issue
+              - compliance_violation
+              - ml_anomaly
+              - manual_trigger
+          description: Filter by alert category
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 50
+          description: Maximum number of alerts to return
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Number of alerts to skip
+      responses:
+        '200':
+          description: Alerts retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alerts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Alert'
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+
+  /api/alerts/{alertId}/acknowledge:
+    patch:
+      summary: Acknowledge alert
+      description: |
+        Acknowledges an alert, indicating that it has been seen
+        and is being handled by a human operator.
+      tags:
+        - Alerts
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: alertId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Alert identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  description: User acknowledging the alert
+              required:
+                - userId
+      responses:
+        '200':
+          description: Alert acknowledged successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+
+  /api/alerts/{alertId}/resolve:
+    patch:
+      summary: Resolve alert
+      description: |
+        Marks an alert as resolved, indicating that the issue
+        has been fixed or is no longer relevant.
+      tags:
+        - Alerts
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: alertId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Alert identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  description: User resolving the alert
+                reason:
+                  type: string
+                  description: Resolution reason
+              required:
+                - userId
+      responses:
+        '200':
+          description: Alert resolved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+
+  /api/alerts/statistics:
+    get:
+      summary: Get alert statistics
+      description: |
+        Retrieves comprehensive statistics about alerts for a tenant,
+        including counts by severity and category, resolution rates,
+        and performance metrics.
+      tags:
+        - Alerts
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: tenantId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Tenant identifier
+        - name: days
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 365
+            default: 30
+          description: Number of days to include in statistics
+      responses:
+        '200':
+          description: Statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertStatistics'
+
+  /api/alerts/rules:
+    post:
+      summary: Create alert rule
+      description: |
+        Creates a new alert rule that defines when and how alerts
+        should be triggered based on various conditions.
+      tags:
+        - Alert Rules
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 128
+                  description: Rule name
+                description:
+                  type: string
+                  description: Rule description
+                tenantId:
+                  type: string
+                  description: Tenant identifier
+                triggerType:
+                  type: string
+                  enum:
+                    - ml_prediction
+                    - threshold
+                    - pattern
+                    - manual
+                  description: Type of trigger
+                triggerConfig:
+                  type: object
+                  description: Trigger configuration
+                severity:
+                  type: string
+                  enum:
+                    - low
+                    - medium
+                    - high
+                    - critical
+                  description: Default alert severity
+                channels:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - email
+                      - slack
+                      - webhook
+                      - sms
+                      - dashboard
+                  description: Notification channels
+                cooldownMinutes:
+                  type: integer
+                  minimum: 0
+                  maximum: 1440
+                  default: 5
+                  description: Cooldown period in minutes
+                groupSimilar:
+                  type: boolean
+                  default: true
+                  description: Whether to group similar alerts
+                groupWindowMinutes:
+                  type: integer
+                  minimum: 1
+                  maximum: 1440
+                  default: 15
+                  description: Grouping window in minutes
+                createdBy:
+                  type: string
+                  description: User creating the rule
+              required:
+                - name
+                - tenantId
+                - triggerType
+                - triggerConfig
+                - severity
+                - channels
+      responses:
+        '201':
+          description: Alert rule created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  ruleId:
+                    type: string
+                  message:
+                    type: string
+
+    get:
+      summary: Get alert rules
+      description: |
+        Retrieves alert rules for a specific tenant.
+        Supports filtering by activity status.
+      tags:
+        - Alert Rules
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: tenantId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Tenant identifier
+        - name: isActive
+          in: query
+          schema:
+            type: boolean
+          description: Filter by active status
+      responses:
+        '200':
+          description: Alert rules retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rules:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AlertRule'
+                  total:
+                    type: integer
+
+  /api/ml/train:
+    post:
+      summary: Start ML training
+      description: |
+        Initiates a new machine learning training job for threat detection.
+        The training process runs asynchronously and can be monitored
+        through the training job endpoints.
+      tags:
+        - ML Training
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                modelType:
+                  type: string
+                  enum:
+                    - threat_detection
+                    - anomaly_detection
+                    - behavioral_analysis
+                  description: Type of model to train
+                trainingDataRatio:
+                  type: number
+                  format: float
+                  minimum: 0.5
+                  maximum: 0.9
+                  default: 0.8
+                  description: Ratio of data for training vs validation
+                epochs:
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  default: 10
+                  description: Number of training epochs
+                batchSize:
+                  type: integer
+                  minimum: 1
+                  maximum: 1000
+                  default: 32
+                  description: Batch size for training
+                learningRate:
+                  type: number
+                  format: float
+                  minimum: 0.0001
+                  maximum: 1
+                  default: 0.001
+                  description: Learning rate for training
+                features:
+                  type: array
+                  items:
+                    type: string
+                  description: Features to use for training
+                hyperparameters:
+                  type: object
+                  description: Additional hyperparameters
+              required:
+                - modelType
+      responses:
+        '202':
+          description: Training job started successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  jobId:
+                    type: string
+                  message:
+                    type: string
+
+  /api/ml/train/{jobId}:
+    get:
+      summary: Get training job status
+      description: |
+        Retrieves the current status and progress of a training job.
+        Provides detailed information about the training process.
+      tags:
+        - ML Training
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Training job identifier
+      responses:
+        '200':
+          description: Training job status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingJob'
+        '404':
+          description: Training job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Cancel training job
+      description: |
+        Cancels a running training job. This action cannot be undone.
+        Use with caution as it will stop the training process.
+      tags:
+        - ML Training
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Training job identifier
+      responses:
+        '200':
+          description: Training job cancelled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '400':
+          description: Cannot cancel job (completed/failed)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/ml/health:
+    get:
+      summary: Get ML system health
+      description: |
+        Retrieves the health status of the ML system including
+        active models, training jobs, and system metrics.
+      tags:
+        - ML Health
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+      responses:
+        '200':
+          description: ML system health retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mlEngine:
+                    type: string
+                    enum:
+                      - healthy
+                      - degraded
+                      - unhealthy
+                  activeModels:
+                    type: integer
+                    description: Number of active ML models
+                  activeTrainingJobs:
+                    type: integer
+                    description: Number of running training jobs
+                  lastHealthCheck:
+                    type: string
+                    format: date-time
+                    description: Timestamp of last health check
+                  features:
+                    type: array
+                    items:
+                      type: string
+                    description: Available ML features
+        '503':
+          description: ML system is unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+tags:
+  - name: ML Analysis
+    description: Machine learning threat detection and analysis
+  - name: Alerts
+    description: Intelligent alert management and notifications
+  - name: Alert Rules
+    description: Configuration of alert triggers and rules
+  - name: ML Training
+    description: Training and management of ML models
+  - name: ML Models
+    description: ML model management and information
+  - name: ML Health
+    description: ML system health and monitoring

@@ -1,0 +1,50 @@
+name: RedTeam Smoke
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 4 * * *'
+
+jobs:
+  redteam-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Optional: run the app in background (if endpoint requires live server). For now we assume local endpoint not needed.
+      # - name: Build
+      #   run: pnpm build
+
+      - name: Generate RT prompts
+        run: pnpm rt:gen
+
+      - name: Run RT harness (shadow mode)
+        env:
+          FIREWALL_API_KEY: ${{ secrets.FIREWALL_API_KEY }}
+        run: pnpm rt:run
+
+      - name: Score
+        run: pnpm rt:score
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: redteam-smoke-results
+          path: |
+            .rt_*.jsonl
+            .rt_*.csv

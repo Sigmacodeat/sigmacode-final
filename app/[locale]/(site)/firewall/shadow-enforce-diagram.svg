@@ -1,0 +1,80 @@
+<svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Shadow vs Enforce Mode Diagramm">
+  <defs>
+    <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0A1F44"/>
+      <stop offset="100%" stop-color="#00F6FF"/>
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#00F6FF"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="200" fill="none" stroke="var(--border)" stroke-width="1" rx="8"/>
+
+  <!-- Title -->
+  <text x="200" y="20" text-anchor="middle" font-family="system-ui" font-size="14" font-weight="bold" fill="var(--fg)">Shadow vs. Enforce Mode</text>
+
+  <!-- Left: Shadow Mode -->
+  <g transform="translate(50, 50)">
+    <rect x="0" y="0" width="120" height="80" fill="none" stroke="#64748b" stroke-width="2" rx="4"/>
+    <text x="60" y="15" text-anchor="middle" font-family="system-ui" font-size="12" fill="#64748b">Shadow Mode</text>
+
+    <!-- Flow -->
+    <circle cx="30" cy="30" r="8" fill="#64748b"/>
+    <text x="30" y="34" text-anchor="middle" font-family="system-ui" font-size="8" fill="white">Req</text>
+
+    <path d="M38 30 L82 30" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <rect x="90" y="20" width="20" height="20" fill="none" stroke="var(--brand-end)" stroke-width="2" stroke-dasharray="3,3"/>
+    <text x="100" y="32" text-anchor="middle" font-family="system-ui" font-size="8" fill="var(--brand-end)">Firewall</text>
+
+    <path d="M118 30 L142 30" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <circle cx="150" cy="30" r="8" fill="#64748b"/>
+    <text x="150" y="34" text-anchor="middle" font-family="system-ui" font-size="8" fill="white">Res</text>
+
+    <!-- Parallel line -->
+    <path d="M100 40 L100 50" stroke="#64748b" stroke-width="1"/>
+    <text x="100" y="65" text-anchor="middle" font-family="system-ui" font-size="8" fill="#64748b">Audit Log</text>
+  </g>
+
+  <!-- Right: Enforce Mode -->
+  <g transform="translate(230, 50)">
+    <rect x="0" y="0" width="120" height="80" fill="none" stroke="var(--brand)" stroke-width="2" rx="4"/>
+    <text x="60" y="15" text-anchor="middle" font-family="system-ui" font-size="12" fill="var(--brand)">Enforce Mode</text>
+
+    <!-- Flow -->
+    <circle cx="30" cy="30" r="8" fill="var(--brand)"/>
+    <text x="30" y="34" text-anchor="middle" font-family="system-ui" font-size="8" fill="white">Req</text>
+
+    <path d="M38 30 L82 30" stroke="var(--brand)" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <rect x="90" y="20" width="20" height="20" fill="var(--brand)" stroke="none"/>
+    <text x="100" y="32" text-anchor="middle" font-family="system-ui" font-size="8" fill="white">Firewall</text>
+
+    <!-- Decision point -->
+    <path d="M118 30 L142 30" stroke="var(--brand)" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <path d="M118 20 L118 40" stroke="var(--brand)" stroke-width="1"/>
+
+    <circle cx="150" cy="20" r="6" fill="#22c55e"/>
+    <text x="150" y="24" text-anchor="middle" font-family="system-ui" font-size="6" fill="white">Allow</text>
+
+    <circle cx="150" cy="40" r="6" fill="#ef4444"/>
+    <text x="150" y="44" text-anchor="middle" font-family="system-ui" font-size="6" fill="white">Block</text>
+
+    <path d="M156 24 L156 36" stroke="var(--brand)" stroke-width="1"/>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(20, 150)">
+    <circle cx="10" cy="10" r="4" fill="#64748b"/>
+    <text x="20" y="14" font-family="system-ui" font-size="10" fill="var(--fg)">Parallel (non-blocking)</text>
+
+    <circle cx="10" cy="25" r="4" fill="var(--brand)"/>
+    <text x="20" y="29" font-family="system-ui" font-size="10" fill="var(--fg)">Blocking decision</text>
+
+    <rect x="120" y="5" width="15" height="10" fill="none" stroke="var(--brand-end)" stroke-width="2" stroke-dasharray="3,3"/>
+    <text x="140" y="14" font-family="system-ui" font-size="10" fill="var(--fg)">Evaluation only</text>
+  </g>
+</svg>

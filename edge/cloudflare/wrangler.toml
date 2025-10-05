@@ -1,0 +1,15 @@
+name = "sigmacode-edge-policy"
+main = "worker.ts"
+compatibility_date = "2024-09-01"
+
+[[kv_namespaces]]
+binding = "POLICIES"
+id = "${POLICIES_KV_ID}"
+preview_id = "${POLICIES_KV_PREVIEW_ID}"
+
+[vars]
+# Optional static vars
+ENV = "production"
+
+[observability]
+enabled = true

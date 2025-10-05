@@ -1,0 +1,25 @@
+dify/**
+supabase/**
+killbill-cloud/**
+superagent/**
+node_modules/**
+.next/**
+tailwind.config.ts
+
+# Build & dist artifacts
+dist/**
+build/**
+.cache/**
+
+# Test & coverage outputs
+coverage/**
+playwright-report/**
+e2e/**
+
+# Tooling / misc
+.turbo/**
+.vercel/**
+.rt_*
+.pnpm-store/**
+.vscode/**
+.idea/**

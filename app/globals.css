@@ -1,0 +1,627 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   SIGMACODE NEURAL FIREWALL - Design System
+   
+   KERNMETAPHER: "Neural Security Shield"
+   ROTER FADEN: UNSICHER → FIREWALL → GESCHÜTZT
+   
+   Color Journey:
+   - Danger (Red) = Unsecured, Threat
+   - Warning (Amber) = Processing
+   - Primary (Electric Blue) = Firewall Active
+   - Success (Emerald) = Protected, Secure
+   ======================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ===================================
+     BASE PALETTE - Light Mode
+     =================================== */
+  --bg: #ffffff;
+  --fg: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --border: #e2e8f0;
+  --card: #ffffff;
+  --card-foreground: #1e293b;
+  --primary: #0f172a;
+  --primary-foreground: #ffffff;
+  --ring: #0ea5e9;
+  --radius: 0.75rem;
+  --header-bg: rgba(255, 255, 255, 0.7);
+
+  /* shadcn/ui Extended Tokens */
+  --secondary: #f1f5f9;
+  --secondary-foreground: #475569;
+  --accent: #f0f9ff;
+  --accent-foreground: #0c4a6e;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --input: #ffffff;
+
+  /* ===================================
+     SEMANTIC STATUS COLORS
+     Security Journey Visualization
+     =================================== */
+  /* Danger - Unsecured State */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --status-danger: #ef4444;
+  --status-danger-light: #fecaca;
+  --status-danger-glow: rgba(239, 68, 68, 0.2);
+
+  /* Warning - Processing/Validation */
+  --warning: #f59e0b;
+  --warning-foreground: #ffffff;
+  --status-warning: #f59e0b;
+  --status-warning-light: #fef3c7;
+  --status-warning-glow: rgba(245, 158, 11, 0.2);
+
+  /* Success - Protected State */
+  --success: #10b981;
+  --success-foreground: #ffffff;
+  --status-success: #10b981;
+  --status-success-light: #d1fae5;
+  --status-success-glow: rgba(16, 185, 129, 0.2);
+
+  /* Info - Processing */
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
+  --status-info: #3b82f6;
+  --status-info-light: #dbeafe;
+  --status-info-glow: rgba(59, 130, 246, 0.2);
+
+  /* ===================================
+     NEURAL FIREWALL BRAND COLORS
+     Electric Blue = Technology, Innovation
+     =================================== */
+  --brand: #0ea5e9;
+  --brand-50: #f0f9ff;
+  --brand-100: #e0f2fe;
+  --brand-200: #bae6fd;
+  --brand-300: #7dd3fc;
+  --brand-400: #38bdf8;
+  --brand-500: #0ea5e9;
+  --brand-600: #0284c7;
+  --brand-700: #0369a1;
+  --brand-800: #075985;
+  --brand-900: #0c4a6e;
+  --brand-foreground: #ffffff;
+  --brand-text: #0ea5e9;
+
+  /* Brand Accent Colors */
+  --brand-electric: #0ea5e9; /* Primary - Electric Blue */
+  --brand-cyber: #06b6d4; /* Accent - Cyber Cyan */
+  --brand-deep: #4f46e5; /* Secondary - Deep Indigo */
+  --brand-premium: #7c3aed; /* Premium - Shield Purple */
+
+  /* ===================================
+     USE CASE ACCENT COLORS
+     Industry-Specific Branding
+     =================================== */
+  /* Healthcare/Medical - Healing Teal */
+  --uc-healthcare: #14b8a6;
+  --uc-healthcare-light: #5eead4;
+  --uc-healthcare-glow: rgba(20, 184, 166, 0.25);
+  /* Finance/Trading - Prosperity Gold */
+  --uc-finance: #f59e0b;
+  --uc-finance-light: #fbbf24;
+  --uc-finance-glow: rgba(245, 158, 11, 0.25);
+  /* Government/Public - Authority Navy */
+  --uc-government: #1e40af;
+  --uc-government-light: #60a5fa;
+  --uc-government-glow: rgba(30, 64, 175, 0.25);
+  /* Infrastructure - Critical Red */
+  --uc-infrastructure: #dc2626;
+  --uc-infrastructure-light: #f87171;
+  --uc-infrastructure-glow: rgba(220, 38, 38, 0.25);
+  /* Pharma/R&D - Innovation Purple */
+  --uc-pharma: #7c3aed;
+  --uc-pharma-light: #a78bfa;
+  --uc-pharma-glow: rgba(124, 58, 237, 0.25);
+  /* Security/PII - Shield Red */
+  --uc-security: #dc2626;
+  --uc-security-light: #f87171;
+  --uc-security-glow: rgba(220, 38, 38, 0.25);
+  /* Compliance/SOC2 - Trust Emerald */
+  --uc-compliance: #059669;
+  --uc-compliance-light: #34d399;
+  --uc-compliance-glow: rgba(5, 150, 105, 0.25);
+  /* Workflow/MAS - Automation Indigo */
+  --uc-workflow: #6366f1;
+  --uc-workflow-light: #818cf8;
+  --uc-workflow-glow: rgba(99, 102, 241, 0.25);
+
+  /* ===================================
+     USP ACCENT COLORS (Top-Level Products)
+     =================================== */
+  /* Robotics - Indigo/Violet Tech */
+  --usp-robotics: #6366f1; /* indigo-500 */
+  --usp-robotics-light: #a78bfa; /* violet-300 */
+  --usp-robotics-glow: rgba(99, 102, 241, 0.25);
+  /* App Store - Emerald/Teal Commerce */
+  --usp-appstore: #10b981; /* emerald-500 */
+  --usp-appstore-light: #14b8a6; /* teal-500 */
+  --usp-appstore-glow: rgba(20, 184, 166, 0.25);
+
+  /* ===================================
+     GRADIENTS & EFFECTS
+     Neural Firewall Visual Language
+     =================================== */
+  /* Primary Gradients */
+  --gradient-brand: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #4f46e5 100%);
+  --gradient-security: linear-gradient(135deg, #ef4444 0%, #f59e0b 50%, #10b981 100%);
+  --gradient-premium: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+  --gradient-subtle: linear-gradient(to bottom, transparent, rgba(14, 165, 233, 0.05));
+
+  /* Mesh Backgrounds */
+  --mesh-brand:
+    radial-gradient(at 20% 30%, rgba(14, 165, 233, 0.15) 0px, transparent 50%),
+    radial-gradient(at 80% 20%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+    radial-gradient(at 50% 90%, rgba(79, 70, 229, 0.1) 0px, transparent 50%);
+  --mesh-danger:
+    radial-gradient(at 30% 40%, rgba(239, 68, 68, 0.1) 0px, transparent 50%),
+    radial-gradient(at 70% 60%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
+  --mesh-success:
+    radial-gradient(at 40% 30%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
+    radial-gradient(at 60% 70%, rgba(5, 150, 105, 0.08) 0px, transparent 50%);
+  --mesh-robotics:
+    radial-gradient(at 25% 25%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+    radial-gradient(at 75% 75%, rgba(167, 139, 250, 0.1) 0px, transparent 50%),
+    radial-gradient(at 50% 85%, rgba(100, 116, 139, 0.08) 0px, transparent 50%);
+  --mesh-appstore:
+    radial-gradient(at 20% 30%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+    radial-gradient(at 80% 20%, rgba(20, 184, 166, 0.1) 0px, transparent 50%),
+    radial-gradient(at 50% 90%, rgba(59, 130, 246, 0.06) 0px, transparent 50%);
+
+  /* ===================================
+     SHADOWS & ELEVATION
+     Depth & Hierarchy System
+     =================================== */
+  /* Standard Elevation */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* Brand Glows */
+  --glow-electric: 0 0 20px rgba(14, 165, 233, 0.3), 0 0 40px rgba(14, 165, 233, 0.15);
+  --glow-cyber: 0 0 20px rgba(6, 182, 212, 0.3), 0 0 40px rgba(6, 182, 212, 0.15);
+  --glow-premium: 0 0 20px rgba(124, 58, 237, 0.3), 0 0 40px rgba(124, 58, 237, 0.15);
+  --glow-danger: 0 0 20px rgba(239, 68, 68, 0.25), 0 0 40px rgba(239, 68, 68, 0.12);
+  --glow-success: 0 0 20px rgba(16, 185, 129, 0.25), 0 0 40px rgba(16, 185, 129, 0.12);
+
+  /* Ring Focus States */
+  --ring-offset: 2px;
+  --ring-brand: 0 0 0 2px #fff, 0 0 0 4px #0ea5e9;
+  --ring-danger: 0 0 0 2px #fff, 0 0 0 4px #ef4444;
+  --ring-success: 0 0 0 2px #fff, 0 0 0 4px #10b981;
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* ===================================
+     BASE PALETTE - Dark Mode
+     =================================== */
+  --bg: #0f172a;
+  --fg: #f1f5f9;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --border: #334155;
+  --card: #1e293b;
+  --card-foreground: #f1f5f9;
+  --primary: #f1f5f9;
+  --primary-foreground: #0f172a;
+  --ring: #38bdf8;
+  --header-bg: rgba(15, 23, 42, 0.7);
+
+  /* shadcn/ui Extended Tokens Dark */
+  --secondary: #334155;
+  --secondary-foreground: #cbd5e1;
+  --accent: #1e3a8a;
+  --accent-foreground: #dbeafe;
+  --popover: #1e293b;
+  --popover-foreground: #f1f5f9;
+  --input: #1e293b;
+
+  /* ===================================
+     SEMANTIC STATUS COLORS - Dark
+     =================================== */
+  --destructive: #f87171;
+  --destructive-foreground: #0f172a;
+  --status-danger: #f87171;
+  --status-danger-light: #7f1d1d;
+  --status-danger-glow: rgba(248, 113, 113, 0.25);
+
+  --warning: #fbbf24;
+  --warning-foreground: #0f172a;
+  --status-warning: #fbbf24;
+  --status-warning-light: #78350f;
+  --status-warning-glow: rgba(251, 191, 36, 0.25);
+
+  --success: #34d399;
+  --success-foreground: #0f172a;
+  --status-success: #34d399;
+  --status-success-light: #064e3b;
+  --status-success-glow: rgba(52, 211, 153, 0.25);
+
+  --info: #60a5fa;
+  --info-foreground: #0f172a;
+  --status-info: #60a5fa;
+  --status-info-light: #1e3a8a;
+  --status-info-glow: rgba(96, 165, 250, 0.25);
+
+  /* ===================================
+     NEURAL FIREWALL BRAND COLORS - Dark
+     =================================== */
+  --brand: #38bdf8;
+  --brand-50: #0c4a6e;
+  --brand-100: #075985;
+  --brand-200: #0369a1;
+  --brand-300: #0284c7;
+  --brand-400: #0ea5e9;
+  --brand-500: #38bdf8;
+  --brand-600: #7dd3fc;
+  --brand-700: #bae6fd;
+  --brand-800: #e0f2fe;
+  --brand-900: #f0f9ff;
+  --brand-foreground: #0f172a;
+  --brand-text: #38bdf8;
+
+  /* Brand Accent Colors Dark */
+  --brand-electric: #38bdf8;
+  --brand-cyber: #22d3ee;
+  --brand-deep: #818cf8;
+  --brand-premium: #a78bfa;
+
+  /* ===================================
+     USE CASE ACCENT COLORS - Dark
+     =================================== */
+  --uc-healthcare: #2dd4bf;
+  --uc-healthcare-light: #5eead4;
+  --uc-healthcare-glow: rgba(45, 212, 191, 0.3);
+
+  --uc-finance: #fbbf24;
+  --uc-finance-light: #fcd34d;
+  --uc-finance-glow: rgba(251, 191, 36, 0.3);
+
+  --uc-government: #60a5fa;
+  --uc-government-light: #93c5fd;
+  --uc-government-glow: rgba(96, 165, 250, 0.3);
+
+  --uc-infrastructure: #f87171;
+  --uc-infrastructure-light: #fca5a5;
+  --uc-infrastructure-glow: rgba(248, 113, 113, 0.3);
+
+  --uc-pharma: #a78bfa;
+  --uc-pharma-light: #c4b5fd;
+  --uc-pharma-glow: rgba(167, 139, 250, 0.3);
+
+  --uc-security: #f87171;
+  --uc-security-light: #fca5a5;
+  --uc-security-glow: rgba(248, 113, 113, 0.3);
+
+  --uc-compliance: #34d399;
+  --uc-compliance-light: #6ee7b7;
+  --uc-compliance-glow: rgba(52, 211, 153, 0.3);
+
+  --uc-workflow: #818cf8;
+  --uc-workflow-light: #a5b4fc;
+  --uc-workflow-glow: rgba(129, 140, 248, 0.3);
+
+  /* USP ACCENT COLORS - Dark */
+  --usp-robotics: #818cf8; /* indigo-400 */
+  --usp-robotics-light: #a78bfa; /* violet-400 */
+  --usp-robotics-glow: rgba(129, 140, 248, 0.3);
+  --usp-appstore: #34d399; /* emerald-400 */
+  --usp-appstore-light: #2dd4bf; /* teal-400 */
+  --usp-appstore-glow: rgba(45, 212, 191, 0.3);
+
+  /* ===================================
+     GRADIENTS & EFFECTS - Dark
+     =================================== */
+  --gradient-brand: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #818cf8 100%);
+  --gradient-security: linear-gradient(135deg, #f87171 0%, #fbbf24 50%, #34d399 100%);
+  --gradient-premium: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #22d3ee 100%);
+  --gradient-subtle: linear-gradient(to bottom, transparent, rgba(56, 189, 248, 0.05));
+
+  --mesh-brand:
+    radial-gradient(at 20% 30%, rgba(56, 189, 248, 0.2) 0px, transparent 50%),
+    radial-gradient(at 80% 20%, rgba(34, 211, 238, 0.15) 0px, transparent 50%),
+    radial-gradient(at 50% 90%, rgba(129, 140, 248, 0.12) 0px, transparent 50%);
+  --mesh-danger:
+    radial-gradient(at 30% 40%, rgba(248, 113, 113, 0.15) 0px, transparent 50%),
+    radial-gradient(at 70% 60%, rgba(251, 191, 36, 0.12) 0px, transparent 50%);
+  --mesh-success:
+    radial-gradient(at 40% 30%, rgba(52, 211, 153, 0.15) 0px, transparent 50%),
+    radial-gradient(at 60% 70%, rgba(16, 185, 129, 0.12) 0px, transparent 50%);
+  --mesh-robotics:
+    radial-gradient(at 25% 25%, rgba(129, 140, 248, 0.18) 0px, transparent 50%),
+    radial-gradient(at 75% 75%, rgba(167, 139, 250, 0.14) 0px, transparent 50%),
+    radial-gradient(at 50% 85%, rgba(71, 85, 105, 0.12) 0px, transparent 50%);
+  --mesh-appstore:
+    radial-gradient(at 20% 30%, rgba(52, 211, 153, 0.18) 0px, transparent 50%),
+    radial-gradient(at 80% 20%, rgba(45, 212, 191, 0.14) 0px, transparent 50%),
+    radial-gradient(at 50% 90%, rgba(59, 130, 246, 0.1) 0px, transparent 50%);
+
+  /* ===================================
+     SHADOWS & ELEVATION - Dark
+     =================================== */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 8px 10px -6px rgba(0, 0, 0, 0.6);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+
+  --glow-electric: 0 0 20px rgba(56, 189, 248, 0.4), 0 0 40px rgba(56, 189, 248, 0.2);
+  --glow-cyber: 0 0 20px rgba(34, 211, 238, 0.4), 0 0 40px rgba(34, 211, 238, 0.2);
+  --glow-premium: 0 0 20px rgba(167, 139, 250, 0.4), 0 0 40px rgba(167, 139, 250, 0.2);
+  --glow-danger: 0 0 20px rgba(248, 113, 113, 0.35), 0 0 40px rgba(248, 113, 113, 0.18);
+  --glow-success: 0 0 20px rgba(52, 211, 153, 0.35), 0 0 40px rgba(52, 211, 153, 0.18);
+
+  --ring-brand: 0 0 0 2px #1e293b, 0 0 0 4px #38bdf8;
+  --ring-danger: 0 0 0 2px #1e293b, 0 0 0 4px #f87171;
+  --ring-success: 0 0 0 2px #1e293b, 0 0 0 4px #34d399;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* Sanftes Rendering & baseline transitions */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+
+/* Align default border color to token */
+* {
+  border-color: var(--border);
+}
+
+/* Smooth scrolling for in-page anchors */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Premium Theme System */
+@import './components/theme/PremiumThemes.css';
+
+/* Neural Quantum AI Gradient Effects */
+.neural-gradient-text {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: neural-pulse 7s ease-in-out infinite;
+}
+
+.quantum-glow {
+  box-shadow: var(--neural-glow);
+  transition: box-shadow 0.3s ease;
+}
+
+.quantum-glow:hover {
+  box-shadow: var(--quantum-pulse);
+}
+
+.ai-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--ai-shimmer);
+  animation: shimmer 2s infinite;
+  pointer-events: none;
+}
+
+.neural-border {
+  position: relative;
+  background: linear-gradient(135deg, var(--quantum-start), var(--quantum-mid), var(--quantum-end));
+  padding: 2px;
+  border-radius: inherit;
+  /* Create a new stacking context so ::before can sit under content */
+  isolation: isolate;
+  /* Ensure proper display for buttons */
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.neural-border::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  /* Allow panels to override inner background via --neural-inner */
+  background: var(--neural-inner, var(--card));
+  /* Keep the same rounding as the parent for smooth corners */
+  border-radius: inherit;
+  /* Place behind the content so text/icons stay visible */
+  z-index: 0;
+  pointer-events: none;
+}
+
+.neural-border > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Variant: use together with .neural-border on buttons/links */
+.neural-button {
+  /* Take full available space within neural-border */
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  position: relative;
+  z-index: 1;
+  /* Ensure proper display */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Prevent layout issues */
+  box-sizing: border-box;
+}
+
+.neural-button::before {
+  content: '';
+  position: absolute;
+  /* Cover the entire button area */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Slightly tinted inner surface to avoid pitch-black look in dark mode */
+  background: color-mix(in oklab, var(--brand) 8%, var(--card));
+  border-radius: inherit;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.neural-button:hover {
+  box-shadow: var(--neural-glow);
+}
+
+.neural-button:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0),
+    var(--brand-outer-glow);
+}
+
+/* Quantum Pulse Animation */
+@keyframes neural-pulse {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Advanced AI Button Effects */
+.quantum-button {
+  background: var(--brand-gradient);
+  background-size: 200% 200%;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.quantum-button:hover {
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: var(--quantum-pulse);
+}
+
+.quantum-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+/* Dezentere Schimmer-Linie im Dark-Mode */
+.dark .quantum-button::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+}
+
+.quantum-button:hover::before {
+  left: 100%;
+}
+
+/* Neon canvas spans full viewport (no top mask, works with transparent header) */
+.neon-bg-canvas {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+/* Subtle left ambient accent under header menubar */
+.header-left-ambient {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 220px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--brand-600) 80%, transparent),
+    transparent
+  );
+  background-size: 200% 100%;
+  opacity: 0.35;
+  filter: drop-shadow(0 0 8px color-mix(in oklab, var(--brand-600) 50%, transparent));
+  animation: header-ambient 4s ease-in-out infinite;
+}
+
+.dark .header-left-ambient {
+  opacity: 0.4;
+}
+
+/* Reduzierte Bewegung für Nutzerpräferenz */
+@media (prefers-reduced-motion: reduce) {
+  .neural-gradient-text,
+  .quantum-button,
+  .ai-shimmer,
+  .quantum-glow {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Einheitliche, hochwertige Fokusringe */
+:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0),
+    var(--brand-outer-glow);
+}
+
+@keyframes header-ambient {
+  0% {
+    background-position: 0% 0;
+    opacity: 0.35;
+  }
+  50% {
+    background-position: 100% 0;
+    opacity: 0.75;
+  }
+  100% {
+    background-position: 0% 0;
+    opacity: 0.35;
+  }
+}

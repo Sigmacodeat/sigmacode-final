@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="SIGMACODE Neural Firewall OG Image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A1F44"/>
+      <stop offset="100%" stop-color="#001429"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0A1F44"/>
+      <stop offset="100%" stop-color="#00F6FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Subtle glow accents -->
+  <g opacity="0.18" fill="#00F6FF">
+    <circle cx="180" cy="120" r="100"/>
+    <circle cx="1040" cy="520" r="140"/>
+  </g>
+
+  <!-- Logo mark (hex shield simplified) -->
+  <g transform="translate(960, 60)">
+    <path d="M80 0 L160 40 L160 120 L80 160 L0 120 L0 40 Z" fill="none" stroke="url(#brand)" stroke-width="4"/>
+    <circle cx="80" cy="80" r="18" fill="#00F6FF" opacity="0.8"/>
+  </g>
+
+  <!-- Copy -->
+  <text x="80" y="250" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif" font-size="58" fill="#ffffff" font-weight="800">SIGMACODE Neural Firewall</text>
+  <text x="80" y="308" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif" font-size="28" fill="#BFEFFF" font-weight="600">Intelligent Defense. Autonomous Protection.</text>
+  <text x="80" y="370" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif" font-size="24" fill="#C7D2FE">SIGMAGUARD (powered by Superagent) · SIGMACODE API Gateway (powered by Kong)</text>
+  <text x="80" y="410" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif" font-size="22" fill="#E2E8F0">Sub‑100ms Latenz · SOC 2 · GDPR · HIPAA</text>
+</svg>

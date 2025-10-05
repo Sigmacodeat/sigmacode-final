@@ -1,0 +1,53 @@
+cloudflare.ini
+
+# Umgebungsvariablen
+.env
+.env.*
+!.env.example
+
+# Sensible Konfigurationen
+secrets.ini
+vault.yml
+
+# Editor- und Systemdateien
+.DS_Store
+.idea/
+.vscode/
+
+# Logdateien
+*.log
+
+# Dependency-Verzeichnisse
+node_modules/
+__pycache__/
+
+# Backup-Verzeichnisse
+backup/
+backup.enc
+
+# Backup- & Swap-Dateien
+*.bak
+*.backup
+*.swp
+*.backup2
+
+# Next.js / Build / Cache
+.next/
+.swc/
+.turbo/
+out/
+dist/
+.vercel/
+pnpm-store/
+.cache/
+*.tsbuildinfo
+
+# Coverage & Test Reports
+coverage/
+e2e/playwright-report/
+test-results/
+
+# Lokale Datenverzeichnisse (nicht versionieren)
+konga-data/
+secrets/
+certs/

@@ -1,0 +1,550 @@
+{
+  "brand": {
+    "name": "SIGMACODE Neural Firewall",
+    "tagline": "Intelligent Defense. Autonomous Protection."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, {name}",
+    "activity": "Activity",
+    "securityStatus": "Security Status",
+    "activeAgents": "Active Agents",
+    "blockedThreats": "Blocked Threats",
+    "complianceScore": "Compliance Score",
+    "lastUpdated": "Last updated",
+    "nav": {
+      "core": "Core",
+      "build": "Build",
+      "security": "Security",
+      "admin": "Admin",
+      "overview": "Overview",
+      "chat": "Chat",
+      "agents": "Agents",
+      "workflows": "Workflows",
+      "knowledge": "Knowledge",
+      "models": "Models",
+      "tools": "Tools",
+      "firewall": "Firewall",
+      "settings": "Settings",
+      "logout": "Logout",
+      "checking": "Checking",
+      "online": "Online",
+      "offline": "Offline"
+    },
+    "overview": {
+      "title": "Dashboard",
+      "subtitle": "Intelligent overview of your AI Agents, workflows and firewall activity.",
+      "aiAgents": "AI Agents",
+      "activeAgents": "Active Agents",
+      "workflows": "Workflows",
+      "automations": "Automations",
+      "executions": "Executions",
+      "executedToday": "Executed today",
+      "firewall": "Firewall",
+      "threatsBlocked": "Threats blocked",
+      "quickActions": "Quick Actions",
+      "newAgent": "New Agent",
+      "newWorkflow": "New Workflow",
+      "startChat": "Start Chat",
+      "firewallOverview": "Firewall Overview",
+      "settings": "Settings",
+      "recentActivity": "Recent Activity",
+      "noActivities": "No activities"
+    },
+    "handbook": {
+      "needHelp": "Need help?",
+      "learnHow": "Learn how to create agents, assign tools and optimize workflows.",
+      "searchHelp": "Search for help or documentation...",
+      "openHandbook": "Open handbook",
+      "aiAssistant": "AI Assistant",
+      "goToPage": "→"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "newAgent": "New Agent",
+      "checkFirewall": "Check Firewall",
+      "startChat": "Start Chat",
+      "settings": "Settings",
+      "moreTools": "More Tools",
+      "statusNavigating": "Navigating to {target}…",
+      "statusFocused": "Focused {target} link"
+    },
+    "stats": {
+      "aiAgents": "AI Agents",
+      "firewallEvents": "Firewall Events",
+      "apiRequests": "API Requests",
+      "systemHealth": "System Health"
+    }
+  },
+  "dashboardPage": {
+    "header": {
+      "title": "Product Overview",
+      "subtitle": "Quick start into Chat, Agents and Firewall – all publicly accessible"
+    },
+    "tiles": {
+      "publicBadge": "Public",
+      "adminBadge": "Admin",
+      "button": {
+        "open": "Open",
+        "locked": "Locked",
+        "lockedTitle": "Administrators only"
+      },
+      "chat": {
+        "title": "Chat",
+        "desc": "Conversations with guardrails – embedded chatbot instance.",
+        "href": "/chat"
+      },
+      "agents": {
+        "title": "Agents",
+        "desc": "Overview & details on Firewall-Powered Agents.",
+        "href": "/agents"
+      },
+      "firewall": {
+        "title": "Firewall",
+        "desc": "Guardrails, policies and explanations.",
+        "href": "/firewall"
+      },
+      "monitor": {
+        "title": "Firewall Monitor",
+        "desc": "Live events (pre/post/shadow) – admin only.",
+        "href": "/dashboard/firewall"
+      }
+    },
+    "quickstart": {
+      "title": "Quickstart",
+      "step1": "Open the <link>Chat</link> and run a test conversation.",
+      "step2": "Go to the <link>Firewall</link> and review the policy examples.",
+      "step3": "If admin: Start the <link>Live Monitor</link> and watch events."
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "next": "Next",
+    "previous": "Back",
+    "close": "Close",
+    "open": "Open",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "confirm": "Confirm",
+    "back": "Back",
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register",
+    "forgotPassword": "Forgot Password",
+    "resetPassword": "Reset Password",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "description": "Description",
+    "title": "Title",
+    "status": "Status",
+    "created": "Created",
+    "updated": "Updated",
+    "actions": "Actions"
+  },
+  "navigation": {
+    "home": "Home",
+    "blog": "Blog",
+    "useCases": "Use Cases",
+    "firewall": "Neural Firewall",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact",
+    "docs": "Documentation",
+    "login": "Login",
+    "signup": "Register",
+    "dashboard": "Dashboard",
+    "admin": "Admin",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout",
+    "products": "Products",
+    "resources": "Resources",
+    "company": "Company",
+    "productsOverview": "Product Overview (USPs)",
+    "analytics": "Analytics",
+    "agents": "Agents",
+    "mas": "MAS",
+    "robotics": "Robotics",
+    "appstore": "App Store",
+    "changelog": "Changelog",
+    "integrations": "Integrations"
+  },
+  "auth": {
+    "welcome": "Welcome",
+    "welcomeBack": "Welcome back",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "createAccount": "Create Account",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "rememberMe": "Remember me",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "and": "and",
+    "or": "or",
+    "continueWith": "Continue with",
+    "signInWithGoogle": "Sign in with Google",
+    "signInWithGitHub": "Sign in with GitHub",
+    "signInWithEmail": "Sign in with Email",
+    "createAccountWithEmail": "Create account with Email",
+    "passwordMinLength": "At least 8 characters",
+    "passwordMustContain": "Must contain:",
+    "passwordUppercase": "Uppercase letters",
+    "passwordLowercase": "Lowercase letters",
+    "passwordNumber": "Numbers",
+    "passwordSpecial": "Special characters",
+    "passwordConfirm": "Confirm password",
+    "passwordMismatch": "Passwords do not match",
+    "emailRequired": "Email address is required",
+    "emailInvalid": "Invalid email address",
+    "nameRequired": "Name is required",
+    "passwordRequired": "Password is required"
+  },
+  "blog": {
+    "readMore": "Read More",
+    "published": "Published",
+    "draft": "Draft",
+    "archived": "Archived",
+    "scheduled": "Scheduled",
+    "categories": "Categories",
+    "tags": "Tags",
+    "author": "Author",
+    "readingTime": "Reading Time",
+    "views": "Views",
+    "comments": "Comments",
+    "likes": "Likes",
+    "share": "Share",
+    "relatedPosts": "Related Posts",
+    "mostRead": "Most Read",
+    "recentPosts": "Recent Posts",
+    "searchPosts": "Search Blog",
+    "noPostsFound": "No posts found",
+    "tryDifferentKeywords": "Try different keywords",
+    "title": "Blog",
+    "subtitle": "Security-First Insights on AI Agents, Workflows and Compliance.",
+    "description": "Product news, case studies and best practices – curated by SIGMACODE AI.",
+    "foundArticles": "Articles found"
+  },
+
+  "robotics": {
+    "badge": "Robotics",
+    "title": "Robotics – Autonomous Systems with Firewall Protection",
+    "subtitle": "From single robots to coordinated fleets: safe planning, perception and execution – with policies, Shadow→Enforce rollout and auditable decisions.",
+    "nav": {
+      "overview": "Overview",
+      "features": "Features",
+      "safety": "Safety",
+      "demo": "Demo"
+    },
+    "overview": "Robotics requires safety from the first frame: We combine perception, planning and control with an end‑to‑end Neural Firewall. Shadow→Enforce enables risk‑free rollout while policies and audit logs make every action traceable.",
+    "features": {
+      "sensorfusion": {
+        "title": "Real‑time Sensor Fusion",
+        "desc": "Fusion of camera, lidar, IMU and telemetry – robust perception even in dynamic environments."
+      },
+      "planning": {
+        "title": "Planning & Execution",
+        "desc": "From high‑level tasks to safe, verifiable trajectories. Policies prevent dangerous actions."
+      },
+      "multiagent": {
+        "title": "Multi‑Agent Coordination",
+        "desc": "Orchestrated teams with roles, communication and conflict resolution – scalable and resilient."
+      },
+      "firewall": {
+        "title": "Neural Firewall Protection",
+        "desc": "Pre/post filtering for sensor data, commands and effectors. Shadow→Enforce enables safe commissioning."
+      },
+      "twins": {
+        "title": "Digital Twins & Simulation",
+        "desc": "Validate policies and paths in simulation – before real systems are affected."
+      },
+      "safety": {
+        "title": "Safety & Compliance",
+        "desc": "Traceable decisions, RBAC and audit logs – compatible with industrial safety standards."
+      }
+    },
+    "safety": {
+      "title": "Safety & Governance",
+      "policiesTitle": "Policies",
+      "policiesDesc": "Constraint‑based rules for zones, speeds, interactions and e‑stops – per robot and fleet.",
+      "auditTitle": "Audit & Traces",
+      "auditDesc": "Every decision is versioned and traceable – perfect for certification and incident response."
+    },
+    "cta": {
+      "title": "Request a demo: Robotics with Firewall",
+      "desc": "Experience safe autonomy – from simulation to fleet operations.",
+      "contact": "Contact us"
+    }
+  },
+
+  "appstore": {
+    "badge": "App Store",
+    "title": "Extensions & Integrations – curated, secure, ready to use",
+    "subtitle": "Install vetted apps and pipelines in minutes: versioned, with transparent permissions and fully compatible with the Neural Firewall (Shadow→Enforce).",
+    "nav": {
+      "overview": "Overview",
+      "features": "Features",
+      "publishing": "Publishing",
+      "cta": "Contact"
+    },
+    "overview": "Install curated extensions and ready‑made pipelines in minutes – with transparent permissions, versioning, reviews and full compatibility with the Neural Firewall (Shadow→Enforce).",
+    "features": {
+      "curated": {
+        "title": "Curated Apps",
+        "desc": "From compliance kits to research pipelines – vetted quality, clear changelogs and support."
+      },
+      "integrations": {
+        "title": "100+ Integrations",
+        "desc": "Connect data stores, APIs and tools. Secure via RBAC and granular scopes."
+      },
+      "pipelines": {
+        "title": "Templates & Pipelines",
+        "desc": "Deploy‑ready workflows with versioning, rollbacks and cost controls."
+      },
+      "reviews": {
+        "title": "Security Reviews",
+        "desc": "Every app is reviewed for policies, permissions and audit transparency."
+      },
+      "install": {
+        "title": "1‑Click Install",
+        "desc": "Test in shadow mode, then enforce – no downtime, full audit trail."
+      },
+      "licensing": {
+        "title": "Flexible Licensing",
+        "desc": "Free, Pro or Enterprise add‑ons – centrally managed, transparently billed."
+      }
+    },
+    "publishing": {
+      "title": "Publishing & Reviews",
+      "submissionTitle": "Submission Workflow",
+      "submissionDesc": "Submit apps with clear scopes, changelogs and SemVer. Automated checks for policies and security.",
+      "verifyTitle": "Verification & Signatures",
+      "verifyDesc": "Signed artifacts, verifiable integrity and audit trails. Rollouts in shadow mode, then enforce."
+    },
+    "cta": {
+      "title": "Submit an app or propose an integration",
+      "desc": "Join the ecosystem: secure, curated apps – compatible with the Neural Firewall.",
+      "contact": "Contact us"
+    }
+  },
+  "landing": {
+    "hero": {
+      "badge": "SIGMACODE Neural Firewall",
+      "title": "SIGMACODE Neural Firewall",
+      "subtitle": "Intelligent Defense. Autonomous Protection.",
+      "description": "🚀 State-of-the-Art Enterprise AI with 99.9% Security Coverage, <50ms Response Time, AI-Powered Optimization and 100% Compliance Ready – built for the future of Enterprise Computing.",
+      "ctaPrimary": "🚀 Try 14 days free",
+      "ctaSecondary": "📞 Book 15-min demo",
+      "ctaDemo": "Watch live demo",
+      "trustBadges": {
+        "soc2": "SOC 2 Type II",
+        "soc2Desc": "Certified",
+        "iso": "ISO 27001",
+        "isoDesc": "Compliant",
+        "uptime": "99.9% Uptime",
+        "uptimeDesc": "SLA",
+        "response": "<50ms"
+      }
+    },
+    "tiles": {
+      "publicBadge": "Public",
+      "adminBadge": "Admin",
+      "chat": {
+        "title": "Chat",
+        "desc": "Conversations with guardrails – embedded chatbot instance.",
+        "href": "/chat"
+      },
+      "agents": {
+        "title": "Agents",
+        "desc": "Overview & details on Firewall-Powered Agents.",
+        "href": "/agents"
+      },
+      "firewall": {
+        "title": "Firewall",
+        "desc": "Guardrails, policies and explanations.",
+        "href": "/firewall"
+      },
+      "monitor": {
+        "title": "Firewall Monitor",
+        "desc": "Live events (pre/post/shadow) – admin only.",
+        "href": "/dashboard/firewall"
+      },
+      "button": {
+        "open": "Open",
+        "locked": "Locked",
+        "lockedTitle": "Administrators only"
+      }
+    },
+    "quickstart": {
+      "title": "Quickstart",
+      "step1": "Open the <link>Chat</link> and run a test conversation.",
+      "step2": "Go to the <link>Firewall</link> and review the policy examples.",
+      "step3": "If admin: Start the <link>Live Monitor</link> and watch events."
+    },
+    "firewallIntro": {
+      "badge": "Secure. Fast. Auditable.",
+      "title": "Firewall-Powered AI Agents",
+      "description": "The most secure AI agents: Pre/post filtering via SIGMAGUARD (powered by Superagent), routing & rate-limits via Kong API Gateway, orchestration with SIGMACODE AI (Multi-Agent Systems), complete audit logs and under 100ms additional latency.",
+      "badges": {
+        "sigmaguard": "SIGMAGUARD (powered by Superagent)",
+        "kong": "Kong API Gateway",
+        "sigmacode": "SIGMACODE AI Orchestration",
+        "rbac": "RBAC · Rate-Limit · Audit"
+      },
+      "ctaChat": "Chat now",
+      "ctaHow": "How it works",
+      "requestFlow": {
+        "title": "Request Flow",
+        "client": "Client",
+        "firewallPre": "🔒 Firewall",
+        "firewallPreDesc": "(Pre-filter)",
+        "sigmacode": "🤖 SIGMACODE AI",
+        "sigmacodeDesc": "Agent / MAS",
+        "firewallPost": "🔒 Firewall",
+        "firewallPostDesc": "(Post-filter)",
+        "response": "Response → Client",
+        "auditNote": "All steps are logged with revision security."
+      }
+    },
+    "useCases": {
+      "title": "24+ Industry-Optimized Use Cases",
+      "description": "Firewall-secured agents for every industry – ready to deploy immediately.",
+      "healthcare": {
+        "title": "🏥 Healthcare AI",
+        "desc": "HIPAA-compliant diagnostic support with patient data protection",
+        "metric": "100% HIPAA Compliant"
+      },
+      "finance": {
+        "title": "💰 Financial Trading",
+        "desc": "MiFID II-compliant algorithmic trading with real-time compliance",
+        "metric": "Sub-100ms Latency"
+      },
+      "government": {
+        "title": "🏛️ Government AI",
+        "desc": "GDPR-compliant administrative AI with citizen data protection",
+        "metric": "100% GDPR Compliant"
+      },
+      "infrastructure": {
+        "title": "⚡ Critical Infrastructure",
+        "desc": "Zero-downtime AI for energy & transportation with OT/IT security",
+        "metric": "Zero Downtime"
+      },
+      "pharma": {
+        "title": "🧬 Pharmaceutical R&D",
+        "desc": "FDA 21 CFR Part 11-compliant pharma research with IP protection",
+        "metric": "100% FDA Compliant"
+      },
+      "pii": {
+        "title": "🔒 PII-Redaction Firewall",
+        "desc": "Automatic PII detection and redaction in real-time",
+        "metric": "99.9% Accuracy"
+      },
+      "soc2": {
+        "title": "📋 SOC2 Evidence Collector",
+        "desc": "Automatic SOC2 compliance and evidence collection",
+        "metric": "100% SOC2 Ready"
+      },
+      "multiagent": {
+        "title": "🎯 Multi-Agent Systems",
+        "desc": "Orchestrated agents for complex workflows",
+        "metric": "∞ Auto-Scaling"
+      },
+      "moreInfo": "Learn more"
+    },
+    "benefits": {
+      "title": "Results in Days, Not Months",
+      "description": "Our customers typically see measurable improvements in the first week.",
+      "time": {
+        "title": "Save more than 40 hours per week",
+        "description": "Automate routine tasks and focus on growth",
+        "metric": "40+ Hours Saved"
+      },
+      "cost": {
+        "title": "Reduce operating costs by 60%",
+        "description": "AI agents work 24/7 – without breaks",
+        "metric": "−60% Costs"
+      },
+      "revenue": {
+        "title": "Increase revenue by 35%",
+        "description": "Faster execution and better decisions",
+        "metric": "+35% Revenue"
+      },
+      "security": {
+        "title": "100% secure & compliant",
+        "description": "Enterprise security with SOC 2, GDPR and HIPAA",
+        "metric": "100% Secure"
+      }
+    },
+    "pricing": {
+      "title": "Flexible Pricing for Every Stage",
+      "description": "Start free and scale securely. SOC 2 ready, enterprise features on demand.",
+      "starter": {
+        "name": "Starter",
+        "description": "For trials and PoCs",
+        "price": "$0",
+        "period": "/month",
+        "features": ["1 Workspace", "Basic Firewall", "Audit Logs (7 days)", "Email Support"],
+        "cta": "Get Started"
+      },
+      "professional": {
+        "name": "Professional",
+        "description": "For growing teams",
+        "price": "$49",
+        "period": "/month",
+        "badge": "Most Popular",
+        "features": [
+          "Everything in Starter",
+          "Advanced Firewall + PII Redaction",
+          "Role-Based Access Control (RBAC)",
+          "Audit Logs (90 days)"
+        ],
+        "cta": "Try Pro"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "For large companies with specific requirements",
+        "price": "Custom",
+        "features": [
+          "Unlimited Requests",
+          "Full Enforce Mode",
+          "SOC 2, GDPR, HIPAA",
+          "24/7 Support",
+          "On-Premise Option"
+        ],
+        "cta": "Contact Us"
+      },
+      "demo": "Request Demo"
+    }
+  },
+  "pricingUI": {
+    "errorCheckoutTitle": "Checkout failed",
+    "savingPercent": "Save {percent}%",
+    "effectiveLabel": "Effective {price}",
+    "opening": "Opening…",
+    "contact": "Contact",
+    "select": "Select",
+    "recommendedBadge": "Recommended",
+    "ctaMonthlyNote": "Cancel monthly anytime",
+    "ctaYearlyNote": "20% cheaper than monthly",
+    "effectiveBadge": "Effective {price}"
+  }
+}

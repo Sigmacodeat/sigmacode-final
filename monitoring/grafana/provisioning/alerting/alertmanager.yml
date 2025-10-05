@@ -1,0 +1,65 @@
+apiVersion: 1
+
+# List of Alertmanager configurations
+configs:
+  # Name of the Alertmanager configuration
+  - name: 'alertmanager'
+    # URL of the Alertmanager instance
+    url: 'http://alertmanager:9093/'
+    # Basic auth configuration (if needed)
+    basicAuthUser: ''
+    # Path to a file containing the basic auth password (if needed)
+    basicAuthPasswordFile: ''
+    # Timeout for requests to the Alertmanager instance
+    timeout: 30
+    # Whether to enable the Alertmanager configuration
+    enable: true
+    # Whether to skip TLS verification (not recommended for production)
+    tlsSkipVerify: true
+    # Path to the CA certificate file (if using TLS)
+    caCertPath: ''
+    # Whether to use the proxy configured in Grafana
+    useProxy: true
+    # HTTP headers to include with requests to the Alertmanager instance
+    headers: []
+    # Additional HTTP headers (deprecated, use 'headers' instead)
+    httpHeaderName1: ''
+    httpHeaderValue1: ''
+    httpHeaderName2: ''
+    httpHeaderValue2: ''
+
+# List of Alertmanager data sources
+datasources:
+  # Name of the Alertmanager data source
+  - name: 'Alertmanager'
+    # Type of the data source
+    type: 'alertmanager'
+    # Access mode (proxy or direct)
+    access: 'proxy'
+    # Organization ID
+    orgId: 1
+    # URL of the Alertmanager instance
+    url: 'http://alertmanager:9093/'
+    # Whether the data source is the default one
+    isDefault: true
+    # Version of the Alertmanager API
+    jsonData:
+      implementation: 'prometheus'
+      # Whether to enable the Alertmanager data source
+      enable: true
+      # Timeout for requests to the Alertmanager instance
+      timeout: 30
+      # Whether to skip TLS verification (not recommended for production)
+      tlsSkipVerify: true
+      # Whether to use the proxy configured in Grafana
+      useProxy: true
+    # Version of the data source
+    version: 1
+    # Whether the data source is editable
+    editable: true
+    # Whether the data source is read-only
+    readOnly: false
+    # Whether the data source is the default one
+    default: true
+    # Whether the data source is the default one for alerts
+    isDefaultForAlerts: true

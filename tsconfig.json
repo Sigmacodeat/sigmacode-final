@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "types": ["jest", "@testing-library/jest-dom"],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"],
+      "@/lib/*": ["./lib/*"],
+      "@/app/lib/*": ["./app/lib/*"],
+      "@/api/*": ["./app/api/*"],
+      "@/content/*": ["./app/content/*"],
+      "@/components/*": ["./app/components/*"],
+      "@/features/*": ["./app/features/*"],
+      "@/hooks/*": ["./app/hooks/*"],
+      "@/types/*": ["./app/types/*"],
+      "@/database/*": ["./database/*"],
+      "@database/*": ["./database/*"],
+      "@/test-utils/*": ["./test-utils/*"],
+      "@/messages/*": ["./messages/*"]
+    },
+    "baseUrl": "."
+  },
+  "include": [
+    "next-env.d.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "lib/**/*.ts",
+    "lib/**/*.tsx",
+    "database/**/*.ts",
+    "scripts/**/*.ts",
+    "test/**/*.ts",
+    "test-utils/**/*.ts",
+    "types/**/*.ts",
+    ".next/types/**/*.ts",
+    "jest.setup.ts",
+    "messages/**/*.json"
+  ],
+  "exclude": ["node_modules", "dify/**"]
+}

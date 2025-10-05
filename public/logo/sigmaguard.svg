@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SIGMAGUARD logo">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#93C5FD"/>
+      <stop offset="100%" stop-color="#6EE7B7"/>
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <!-- Shield -->
+  <path d="M128 20C128 20 70 36 44 44C44 176 128 236 128 236C128 236 212 176 212 44C186 36 128 20 128 20Z" fill="url(#g1)" filter="url(#shadow)"/>
+  <!-- Sigma letter stylized -->
+  <path d="M88 84C88 72.9543 96.9543 64 108 64H176" stroke="white" stroke-width="14" stroke-linecap="round"/>
+  <path d="M88 172C88 183.046 96.9543 192 108 192H176" stroke="white" stroke-width="14" stroke-linecap="round"/>
+  <path d="M108 64L152 128L108 192" stroke="url(#g2)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

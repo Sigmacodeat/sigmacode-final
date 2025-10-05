@@ -1,0 +1,499 @@
+{
+  "brand": {
+    "name": "SIGMACODE Neural Firewall",
+    "tagline": "Intelligent Defense. Autonomous Protection."
+  },
+  "landing": {
+    "hero": {
+      "badge": "Quantum Neural Shield",
+      "title": "AI Agents & Workflows",
+      "subtitle": "Quantum Neural Shieldによるファイアウォール強化",
+      "description": "AIエージェントとワークフローを構築、オーケストレーション、管理 – 当社のニューラルAIファイアウォールで保護されます。sub‑100ms遅延、エンタープライズセキュリティ、即時利用準備完了。",
+      "ctaPrimary": "🚀 14日間無料トライアル",
+      "ctaSecondary": "📞 15分デモ予約",
+      "ctaDemo": "ライブデモを見る",
+      "trustBadges": {
+        "soc2": "SOC 2 Type II",
+        "soc2Desc": "認定済み",
+        "iso": "ISO 27001",
+        "isoDesc": "準拠",
+        "uptime": "99.9% Uptime",
+        "uptimeDesc": "SLA",
+        "response": "<50ms",
+        "responseDesc": "Response"
+      }
+    },
+    "features": {
+      "title": "AIエージェントとワークフロー – ファイアウォール保護付き",
+      "description": "マルチエージェントワークフローをオーケストレーション – ニューラルシールドファイアウォールが各インタラクションを保護します。",
+      "security": {
+        "title": "Zero Trustセキュリティ",
+        "description": "各リクエストがリアルタイムで検証されます – 例外なし、リスクなし。"
+      },
+      "compliance": {
+        "title": "Compliance by Design",
+        "description": "DSGVO、HIPAA、SOC2 – すべてのコンプライアンス要件がデフォルトで含まれます。"
+      },
+      "performance": {
+        "title": "最適化されたパフォーマンス",
+        "description": "ファイアウォールフィルタリング50ms未満 – 目立つ遅延なし。"
+      }
+    },
+    "stats": {
+      "title": "エンタープライズレベルの結果",
+      "description": "当社のファイアウォールは測定可能な結果を即座に提供します。",
+      "coverage": {
+        "value": "99.9%",
+        "label": "セキュリティカバレッジ"
+      },
+      "latency": {
+        "value": "<50ms",
+        "label": "応答時間"
+      },
+      "uptime": {
+        "value": "99.9%",
+        "label": "Uptime SLA"
+      },
+      "compliance": {
+        "value": "100%",
+        "label": "コンプライアンス対応"
+      }
+    },
+    "firewallIntro": {
+      "title": "Quantum Neural Shield – ニューラルAIファイアウォール",
+      "description": "SIGMACODEはAIエージェントとワークフローを保証されたセキュリティと組み合わせます。各入力、各ステップ、各応答がリアルタイムのpre/postフィルタリングにより分析、検証、保護されます。",
+      "badge": "Firewall‑Powered Agents",
+      "badges": {
+        "sigmaguard": "SIGMAGUARD™",
+        "kong": "Kong Gateway",
+        "sigmacode": "SIGMACODE AI",
+        "rbac": "ロールベースアクセス制御"
+      },
+      "ctaChat": "専門家とチャット",
+      "ctaHow": "仕組み",
+      "requestFlow": {
+        "title": "ファイアウォールの仕組み",
+        "client": "クライアント",
+        "firewallPre": "Firewall Pre-Check",
+        "firewallPreDesc": "着信リクエストが検証、フィルタリング、ポリシーと比較されます。",
+        "sigmacode": "SIGMACODE Core",
+        "sigmacodeDesc": "リクエストが処理、最適化、保護されます。",
+        "firewallPost": "Firewall Post-Check",
+        "firewallPostDesc": "応答がチェック、機密データが削除、ポリシーが適用されます。",
+        "response": "応答",
+        "auditNote": "すべてのステップが監査順に記録されます。"
+      }
+    },
+    "useCases": {
+      "title": "24+ 業界最適化ユースケース",
+      "description": "ファイアウォール保護エージェント – 各業界向け、即時利用可能。",
+      "healthcare": {
+        "title": "🏥 ヘルスケアAI",
+        "desc": "HIPAA準拠診断サポート、患者データ保護付き",
+        "metric": "100% HIPAA準拠"
+      },
+      "finance": {
+        "title": "💰 金融トレーディング",
+        "desc": "MiFID II準拠アルゴリズムトレーディング、リアルタイムコンプライアンス",
+        "metric": "sub‑100ms遅延"
+      },
+      "government": {
+        "title": "🏛️ 政府AI",
+        "desc": "DSGVO準拠行政AI、市民データ保護付き",
+        "metric": "100% DSGVO準拠"
+      },
+      "infrastructure": {
+        "title": "⚡ 重要インフラ",
+        "desc": "エネルギー・輸送向けダウンタイムなしAI、OT/ITセキュリティ",
+        "metric": "Zero Downtime"
+      },
+      "pharma": {
+        "title": "🧬 製薬R&D",
+        "desc": "FDA 21 CFR Part 11準拠製薬研究、IP保護付き",
+        "metric": "100% FDA準拠"
+      },
+      "pii": {
+        "title": "🔒 PIIファイアウォール編集",
+        "desc": "自動PII検出とリアルタイム編集",
+        "metric": "99.9% 精度"
+      },
+      "soc2": {
+        "title": "📋 SOC2エビデンスコレクター",
+        "desc": "自動SOC2コンプライアンスとエビデンス収集",
+        "metric": "100% SOC2対応"
+      },
+      "multiagent": {
+        "title": "🎯 マルチエージェントシステム",
+        "desc": "複雑なワークフロー向けオーケストレーションエージェント",
+        "metric": "∞ Auto‑Scaling"
+      },
+      "moreInfo": "詳細を見る"
+    },
+    "benefits": {
+      "title": "日数単位で結果、月単位ではない",
+      "description": "当社のお客様は通常、最初の週で測定可能な改善を見ています。",
+      "time": {
+        "title": "週に40時間以上節約",
+        "description": "日常業務を自動化し、成長に集中",
+        "metric": "40+時間節約"
+      },
+      "cost": {
+        "title": "運用コストを60%削減",
+        "description": "AIエージェントが24/7稼働 – 休憩なし",
+        "metric": "−60% コスト"
+      },
+      "revenue": {
+        "title": "収益を35%増加",
+        "description": "より迅速な実行とより良い決定",
+        "metric": "+35% 収益"
+      },
+      "security": {
+        "title": "100% 安全でコンプライアンス対応",
+        "description": "SOC 2、GDPR、HIPAAによるエンタープライズセキュリティ",
+        "metric": "100% 安全"
+      }
+    },
+    "pricing": {
+      "title": "各段階向け柔軟な価格設定",
+      "description": "無料で開始し、安全にスケール。SOC 2対応、必要に応じてエンタープライズ機能。",
+      "starter": {
+        "name": "Starter",
+        "description": "テストとPoC向け",
+        "price": "$0",
+        "period": "/月",
+        "features": ["1 Workspace", "基本ファイアウォール", "Audit-Logs (7日)", "メールサポート"],
+        "cta": "開始"
+      },
+      "professional": {
+        "name": "Professional",
+        "description": "成長チーム向け",
+        "price": "$49",
+        "period": "/月",
+        "badge": "人気",
+        "features": [
+          "Starterのすべて",
+          "拡張ファイアウォール + PII編集",
+          "ロールベースアクセス制御 (RBAC)",
+          "Audit-Logs (90日)"
+        ],
+        "cta": "Proを試す"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "特定の要件を持つ大企業向け",
+        "price": "カスタム",
+        "features": [
+          "無制限リクエスト",
+          "完全Enforceモード",
+          "SOC 2、GDPR、HIPAA",
+          "24/7サポート",
+          "On-Premiseオプション"
+        ],
+        "cta": "連絡"
+      },
+      "demo": "デモをリクエスト"
+    },
+    "premiumFeatures": {
+      "headerBadge": "技術仕様",
+      "headerTitleLead": "エンタープライズ",
+      "headerTitleStrong": "AIインフラ",
+      "headerSubtitle": "sub‑100msパフォーマンス、エンタープライズセキュリティ、包括的監視を備えた最先端AIプラットフォーム。",
+      "categories": {
+        "all": "すべての機能",
+        "security": "セキュリティ",
+        "performance": "パフォーマンス",
+        "architecture": "アーキテクチャ",
+        "monitoring": "監視"
+      },
+      "docButton": "ドキュメントを見る",
+      "trustedBy": "世界中の500+企業に信頼されています",
+      "startFree": "無料で開始",
+      "scheduleDemo": "デモをスケジュール",
+      "technicalImplementation": "技術実装",
+      "items": {
+        "firewall": {
+          "title": "AIファイアウォール保護",
+          "subtitle": "sub‑50msリアルタイムフィルタリング"
+        },
+        "gateway": {
+          "title": "API Gateway (Kong)",
+          "subtitle": "TLS • Routing • Rate Limits"
+        },
+        "orchestration": {
+          "title": "マルチエージェントオーケストレーション",
+          "subtitle": "インテリジェントLoad Balancing"
+        },
+        "auditTrail": {
+          "title": "不変Audit Trail",
+          "subtitle": "GDPRおよびSOC 2準拠"
+        },
+        "monitoring": {
+          "title": "リアルタイム監視",
+          "subtitle": "ライブメトリクスDashboard"
+        },
+        "latency": {
+          "title": "超低遅延",
+          "subtitle": "エンタープライズパフォーマンス"
+        },
+        "zerotrust": {
+          "title": "Zero‑Trustセキュリティ",
+          "subtitle": "エンタープライズレベル保護"
+        }
+      }
+    },
+    "faq": {
+      "title": "よくある質問",
+      "description": "セキュリティ、コンプライアンス、パフォーマンスに関する最も重要な質問への回答。"
+    }
+  },
+  "dashboardPage": {
+    "header": {
+      "title": "製品概要",
+      "subtitle": "チャット、エージェント、ファイアウォールでのクイックスタート – すべて公開表示"
+    },
+    "tiles": {
+      "publicBadge": "公開",
+      "adminBadge": "管理者",
+      "button": {
+        "open": "開く",
+        "locked": "ロック済み",
+        "lockedTitle": "管理者のみ"
+      },
+      "chat": {
+        "title": "チャット",
+        "desc": "guardrails付き会話 – 統合チャットボットインスタンス。",
+        "href": "/chat"
+      },
+      "agents": {
+        "title": "エージェント",
+        "desc": "ファイアウォール付きエージェントの概要と詳細。",
+        "href": "/agents"
+      },
+      "firewall": {
+        "title": "ファイアウォール",
+        "desc": "guardrails、ポリシー、説明。",
+        "href": "/firewall"
+      },
+      "monitor": {
+        "title": "ファイアウォールモニター",
+        "desc": "ライブイベント (pre/post/shadow) – 管理者専用。",
+        "href": "/dashboard/firewall"
+      }
+    },
+    "quickstart": {
+      "title": "クイックスタート",
+      "step1": "<link>チャット</link>を開き、テスト会話を開始。",
+      "step2": "<link>ファイアウォール</link>に移動し、ポリシーの例を見る。",
+      "step3": "管理者なら: <link>ライブモニター</link>を起動し、イベントを観察。"
+    }
+  },
+  "firewall": {
+    "title": "ファイアウォール",
+    "mode": {
+      "test": "テストモード",
+      "enforce": "適用モード"
+    },
+    "testModeDescription": "テストモードではすべてのアクションが監視されますが、ブロックされません。",
+    "enforceModeDescription": "適用モードでは危険なアクションがブロックされます。",
+    "realtimeProtection": "pre/postフィルターによるリアルタイム保護",
+    "live": "ライブdashboard",
+    "modes": "モード",
+    "onboarding": "オンボーディング",
+    "audit": "監査",
+    "security": "セキュリティ",
+    "fast": "高速",
+    "auditable": "監査可能",
+    "fewMinutesActive": "数分で使用可能 – downtimeなし",
+    "testModeTitle": "Shadow / テストモード",
+    "testModeBenefits": "リスクなしテスト: ブロックなし完全可視性",
+    "clearRecommendations": "ポリシーと閾値に関する明確な推奨事項",
+    "perfectForRiskFreeStart": "リスクなし開始に最適",
+    "enforceModeTitle": "適用モード",
+    "enforceModeBenefits": "ポリシーが厳格に適用 – 危険なアクションがブロックされます",
+    "rbacLimitsContentValidation": "RBAC、レート制限、コンテンツ検証",
+    "allowBlockWithReasoning": "推論と信頼スコア付き許可/ブロック",
+    "quickStart": "クイックスタート",
+    "step1Activate": "ステップ1: ファイアウォールを有効化",
+    "activateFirewall": "FIREWALL_ENABLED",
+    "shadowMode": "FIREWALL_MODE",
+    "step2Connect": "ステップ2: バックエンド接続",
+    "superagentUrl": "SUPERAGENT_URL",
+    "superagentApiKey": "SUPERAGENT_API_KEY",
+    "optionalTechnicalDetails": "オプション技術詳細",
+    "everyCallGetsId": "各リクエストが一意のx-request-idを受け取り、監査順に記録されます。",
+    "transparentLogging": "透明監査ログ",
+    "whatIsRecorded": "何が記録されますか？",
+    "howDecisionsLook": "決定はどのように見えますか？",
+    "backToOverview": "概要に戻る",
+    "dashboard": {
+      "errorTitle": "メトリクス読み込みエラー",
+      "noMetrics": "利用可能なメトリクスなし",
+      "totalRequests": "総リクエスト数",
+      "increaseVsLastHour": "+{percentage}% vs. 最終1時間",
+      "blockedRequests": "ブロック済みリクエスト",
+      "percentageOfTotal": "総数の{percentage}%",
+      "avgLatency": "平均遅延",
+      "errorRate": "エラー率",
+      "decreaseVsLastHour": "−{ms}ms vs. 最終1時間",
+      "withinNormalRange": "通常範囲内",
+      "topThreats": "トップ脅威",
+      "systemHealth": "システム状態",
+      "status": "ステータス",
+      "enabled": "有効",
+      "disabled": "無効",
+      "mode": "モード",
+      "allowed": "許可"
+    }
+  },
+  "auth": {
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "signup": "登録",
+    "email": "メール",
+    "password": "パスワード",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "resetPassword": "パスワードリセット"
+  },
+  "blog": {
+    "title": "ブログ",
+    "readMore": "続きを読む",
+    "latestPosts": "最新記事"
+  },
+  "cta": {
+    "primary": "今すぐ開始",
+    "secondary": "詳細を見る",
+    "contact": "連絡"
+  },
+  "navigation": {
+    "products": "製品",
+    "useCases": "ユースケース",
+    "security": "セキュリティ",
+    "resources": "リソース",
+    "company": "会社",
+    "productsOverview": "製品概要 (USPs)",
+    "firewall": "ニューラルファイアウォール",
+    "analytics": "Analytics",
+    "agents": "エージェント",
+    "mas": "MAS",
+    "robotics": "Robotics",
+    "appstore": "App Store",
+    "chat": "チャット",
+    "docs": "Docs",
+    "changelog": "Changelog",
+    "integrations": "統合",
+    "pricing": "Pricing",
+    "contact": "連絡先"
+  },
+  "robotics": {
+    "badge": "Robotics",
+    "title": "Robotics – ファイアウォール保護付き自律システム",
+    "subtitle": "個別ロボットから協調されたフリートまで: 計画、認識、安全実行 – ポリシー、Shadow→Enforceロールアウト、監査可能決定付き。",
+    "nav": {
+      "overview": "概要",
+      "features": "機能",
+      "safety": "安全性",
+      "demo": "デモ"
+    },
+    "overview": "Roboticsは最初のフレームからセキュリティを必要とします: 認識、計画、制御を統合ニューラルファイアウォールと組み合わせます。Shadow→Enforceはリスクなしロールアウトを許可し、同時にポリシーと監査ログが各アクションを追跡可能にします。",
+    "features": {
+      "sensorfusion": {
+        "title": "リアルタイムセンサーフュージョン",
+        "desc": "カメラ、Lidar、IMU、テレメトリのフュージョン – 複雑で動的な環境でも堅牢な認識。"
+      },
+      "planning": {
+        "title": "計画と実行",
+        "desc": "高レベルタスクから安全で検証可能な軌道へ。ポリシーが危険なアクションを防ぎます。"
+      },
+      "multiagent": {
+        "title": "マルチエージェント調整",
+        "desc": "役割、コミュニケーション、競合解決付きオーケストレーションチーム – スケーラブルで回復力あり。"
+      },
+      "firewall": {
+        "title": "ニューラルファイアウォール保護",
+        "desc": "センサーデータ、コマンド、エフェクター向けpre/postフィルター。Shadow→Enforceが安全実装を許可します。"
+      },
+      "twins": {
+        "title": "デジタルツインとシミュレーション",
+        "desc": "シミュレーションで検証されたポリシーとパス – 実際のシステム関与前。"
+      },
+      "safety": {
+        "title": "安全性とコンプライアンス",
+        "desc": "追跡可能決定、RBAC、監査ログ – 産業セキュリティ標準互換。"
+      }
+    },
+    "safety": {
+      "title": "安全性とガバナンス",
+      "policiesTitle": "ポリシー",
+      "policiesDesc": "ゾーン、速度、インタラクション、緊急停止向け制約ベースルール – ロボットおよびフリートごと。",
+      "auditTitle": "監査とトレース",
+      "auditDesc": "各決定がバージョン化され追跡 – 認証とインシデント対応に最適。"
+    },
+    "cta": {
+      "title": "デモをリクエスト: Robotics with firewall",
+      "desc": "安全自律性を体験 – シミュレーションからフリート運用まで。",
+      "contact": "連絡"
+    }
+  },
+  "appstore": {
+    "badge": "App Store",
+    "title": "拡張機能と統合 – キュレーテッド、安全、迅速利用準備完了",
+    "subtitle": "検証済みアプリとパイプラインを数分でインストール: バージョン管理、透明な許可、ニューラルファイアウォール完全互換 (Shadow→Enforce)。",
+    "nav": {
+      "overview": "概要",
+      "features": "機能",
+      "publishing": "公開",
+      "cta": "連絡先"
+    },
+    "overview": "キュレーテッド拡張機能とプレビルドパイプラインを数分でインストール – 透明な許可、バージョン管理、レビュー、ニューラルファイアウォール完全互換 (Shadow→Enforce)。",
+    "features": {
+      "curated": {
+        "title": "キュレーテッドアプリ",
+        "desc": "コンプライアンスキットからリサーチパイプラインまで – 検証済み品質、明確なchangelogs、サポート。"
+      },
+      "integrations": {
+        "title": "100+ 統合",
+        "desc": "データストレージ、API、ツールを接続。RBACと詳細スコープ経由で安全。"
+      },
+      "pipelines": {
+        "title": "テンプレートとパイプライン",
+        "desc": "バージョン管理、rollback、コスト制御付きデプロイ準備ワークフロー。"
+      },
+      "reviews": {
+        "title": "セキュリティレビュー",
+        "desc": "各アプリがポリシー、許可、監査透明性で検証されます。"
+      },
+      "install": {
+        "title": "1‑Clickインストール",
+        "desc": "シャドウモードでテスト、次にEnforce – downtimeなし、完全監査付き。"
+      },
+      "licensing": {
+        "title": "柔軟ライセンス",
+        "desc": "無料、Pro、またはEnterpriseアドオン – 一元管理、透明請求。"
+      }
+    },
+    "publishing": {
+      "title": "公開とレビュー",
+      "submissionTitle": "送信フロー",
+      "submissionDesc": "明確なスコープ、changelogs、SemVer付きアプリを送信。ポリシーとセキュリティ向け自動化検証。",
+      "verifyTitle": "検証と署名",
+      "verifyDesc": "署名済みアーティファクト、検証可能整合性、監査トレイル。シャドウモードでロールアウト、次にEnforce。"
+    },
+    "cta": {
+      "title": "アプリ送信または統合提案",
+      "desc": "エコシステムの一部に: 安全でキュレーテッドアプリ – ニューラルファイアウォール互換。",
+      "contact": "連絡"
+    }
+  },
+  "pricingUI": {
+    "errorCheckoutTitle": "チェックアウト失敗",
+    "savingPercent": "{percent}%節約",
+    "effectiveLabel": "効果 {price}",
+    "opening": "開いています…",
+    "contact": "連絡",
+    "select": "選択",
+    "recommendedBadge": "推奨",
+    "ctaMonthlyNote": "月次キャンセル可能",
+    "ctaYearlyNote": "月次より20%安い",
+    "effectiveBadge": "効果 {price}"
+  }
+}

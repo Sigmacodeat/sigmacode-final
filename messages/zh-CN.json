@@ -1,0 +1,583 @@
+{
+  "dashboard": {
+    "nav": {
+      "core": "核心",
+      "overview": "概览",
+      "chat": "聊天",
+      "agents": "代理",
+      "build": "构建",
+      "workflows": "工作流",
+      "knowledge": "知识",
+      "models": "模型",
+      "tools": "工具",
+      "security": "安全",
+      "firewall": "防火墙",
+      "admin": "管理员",
+      "settings": "设置",
+      "logout": "登出",
+      "backendStatus": "后端状态",
+      "online": "在线",
+      "offline": "离线",
+      "checking": "检查中"
+    },
+    "overview": {
+      "title": "仪表板",
+      "subtitle": "您的人工智能代理、工作流和防火墙活动的智能概览。",
+      "aiAgents": "AI代理",
+      "activeAgents": "活跃代理",
+      "workflows": "工作流",
+      "automations": "自动化",
+      "executions": "执行",
+      "executedToday": "今日执行",
+      "firewall": "防火墙",
+      "threatsBlocked": "已阻止威胁",
+      "quickActions": "快速操作",
+      "newAgent": "新代理",
+      "newWorkflow": "新工作流",
+      "startChat": "开始聊天",
+      "firewallOverview": "防火墙概览",
+      "settings": "设置",
+      "recentActivity": "最近活动",
+      "noActivities": "无活动"
+    },
+    "handbook": {
+      "needHelp": "需要帮助？",
+      "learnHow": "学习如何创建代理、分配工具并优化您的工作流。",
+      "searchHelp": "搜索帮助或文档...",
+      "openHandbook": "打开手册",
+      "aiAssistant": "AI助手",
+      "goToPage": "转到页面"
+    },
+    "quickActions": {
+      "newAgent": "新代理",
+      "checkFirewall": "检查防火墙",
+      "startChat": "开始聊天",
+      "settings": "设置",
+      "moreTools": "更多工具"
+    },
+    "activity": {
+      "noEvents": "无当前事件。",
+      "connecting": "连接中...",
+      "viewAll": "查看所有活动"
+    },
+    "layout": {
+      "back": "返回",
+      "backendStatus": "后端状态",
+      "checking": "检查中",
+      "online": "在线",
+      "offline": "离线",
+      "latency": "延迟",
+      "model": "模型",
+      "home": "仪表板",
+      "firewallLabel": "防火墙: {mode}",
+      "firewall": {
+        "enforce": "执行",
+        "shadow": "影子",
+        "off": "关闭"
+      }
+    },
+    "stats": {
+      "aiAgents": "AI代理",
+      "firewallEvents": "防火墙事件",
+      "apiRequests": "API请求",
+      "systemHealth": "系统状态"
+    }
+  },
+  "common": {
+    "language": "语言"
+  },
+  "brand": {
+    "name": "SIGMACODE Neural Firewall",
+    "tagline": "Intelligent Defense. Autonomous Protection."
+  },
+  "landing": {
+    "hero": {
+      "badge": "Quantum Neural Shield",
+      "title": "AI Agents & Workflows",
+      "subtitle": "Quantum Neural Shield提供的防火墙强化",
+      "description": "构建、编排和操作AI代理和workflow – 由我们的神经AI防火墙保护。sub‑100ms延迟，企业安全和即用准备。",
+      "ctaPrimary": "🚀 免费试用14天",
+      "ctaSecondary": "📞 预订15分钟演示",
+      "ctaDemo": "观看实时演示",
+      "trustBadges": {
+        "soc2": "SOC 2 Type II",
+        "soc2Desc": "已认证",
+        "iso": "ISO 27001",
+        "isoDesc": "合规",
+        "uptime": "99.9% Uptime",
+        "uptimeDesc": "SLA",
+        "response": "<50ms",
+        "responseDesc": "Response"
+      }
+    },
+    "features": {
+      "title": "AI代理和工作流 – 带有防火墙保护",
+      "description": "编排多代理workflow – 神经盾防火墙保护每个交互。",
+      "security": {
+        "title": "零信任安全",
+        "description": "每个请求实时验证 – 无例外，无风险。"
+      },
+      "compliance": {
+        "title": "设计合规",
+        "description": "DSGVO、HIPAA和SOC2 – 所有合规要求默认包含。"
+      },
+      "performance": {
+        "title": "优化性能",
+        "description": "防火墙过滤低于50ms – 无明显延迟。"
+      }
+    },
+    "stats": {
+      "title": "企业级结果",
+      "description": "我们的防火墙立即提供可衡量的结果。",
+      "coverage": {
+        "value": "99.9%",
+        "label": "安全覆盖率"
+      },
+      "latency": {
+        "value": "<50ms",
+        "label": "响应时间"
+      },
+      "uptime": {
+        "value": "99.9%",
+        "label": "Uptime SLA"
+      },
+      "compliance": {
+        "value": "100%",
+        "label": "合规就绪"
+      }
+    },
+    "firewallIntro": {
+      "title": "Quantum Neural Shield – 神经AI防火墙",
+      "description": "SIGMACODE将AI代理和工作流与保证的安全结合。每个输入、每个步骤、每个响应通过实时pre/post过滤进行分析、验证和保护。",
+      "badge": "Firewall‑Powered Agents",
+      "badges": {
+        "sigmaguard": "SIGMAGUARD™",
+        "kong": "Kong Gateway",
+        "sigmacode": "SIGMACODE AI",
+        "rbac": "基于角色的访问控制"
+      },
+      "ctaChat": "与专家聊天",
+      "ctaHow": "如何工作",
+      "requestFlow": {
+        "title": "防火墙如何工作",
+        "client": "客户端",
+        "firewallPre": "Firewall Pre-Check",
+        "firewallPreDesc": "传入请求被验证、过滤并与政策比较。",
+        "sigmacode": "SIGMACODE Core",
+        "sigmacodeDesc": "请求被处理、优化和保护。",
+        "firewallPost": "Firewall Post-Check",
+        "firewallPostDesc": "响应被检查、敏感数据移除、政策应用。",
+        "response": "响应",
+        "auditNote": "所有步骤按审计顺序记录。"
+      }
+    },
+    "useCases": {
+      "title": "24+ 行业优化用例",
+      "description": "防火墙保护代理 – 每个行业立即可用。",
+      "healthcare": {
+        "title": "🏥 医疗AI",
+        "desc": "HIPAA合规诊断支持，包含患者数据保护",
+        "metric": "100% HIPAA合规"
+      },
+      "finance": {
+        "title": "💰 金融交易",
+        "desc": "MiFID II合规算法交易，实时合规",
+        "metric": "sub‑100ms延迟"
+      },
+      "government": {
+        "title": "🏛️ 政府AI",
+        "desc": "DSGVO合规行政AI，包含公民数据保护",
+        "metric": "100% DSGVO合规"
+      },
+      "infrastructure": {
+        "title": "⚡ 关键基础设施",
+        "desc": "能源和运输无停机AI，OT/IT安全",
+        "metric": "Zero Downtime"
+      },
+      "pharma": {
+        "title": "🧬 制药R&D",
+        "desc": "FDA 21 CFR Part 11合规制药研究，包含IP保护",
+        "metric": "100% FDA合规"
+      },
+      "pii": {
+        "title": "🔒 PII防火墙编辑",
+        "desc": "自动PII检测和实时编辑",
+        "metric": "99.9% 准确性"
+      },
+      "soc2": {
+        "title": "📋 SOC2证据收集器",
+        "desc": "自动SOC2合规和证据收集",
+        "metric": "100% SOC2就绪"
+      },
+      "multiagent": {
+        "title": "🎯 多代理系统",
+        "desc": "复杂workflow的编排代理",
+        "metric": "∞ Auto‑Scaling"
+      },
+      "moreInfo": "了解更多"
+    },
+    "benefits": {
+      "title": "天结果，非月结果",
+      "description": "我们的客户通常在第一周看到可衡量的改进。",
+      "time": {
+        "title": "每周节省40小时以上",
+        "description": "自动化日常任务，专注于增长",
+        "metric": "40+小时节省"
+      },
+      "cost": {
+        "title": "降低运营成本60%",
+        "description": "AI代理24/7工作 – 无休息",
+        "metric": "−60% 成本"
+      },
+      "revenue": {
+        "title": "增加收入35%",
+        "description": "更快的执行和更好的决策",
+        "metric": "+35% 收入"
+      },
+      "security": {
+        "title": "100% 安全且合规",
+        "description": "通过SOC 2、GDPR和HIPAA的企业安全",
+        "metric": "100% 安全"
+      }
+    },
+    "pricing": {
+      "title": "每个阶段的灵活定价",
+      "description": "免费开始，安全扩展。SOC 2就绪，根据需要企业功能。",
+      "starter": {
+        "name": "Starter",
+        "description": "测试和PoC",
+        "price": "$0",
+        "period": "/月",
+        "features": ["1 Workspace", "基础防火墙", "Audit-Logs (7天)", "邮件支持"],
+        "cta": "开始"
+      },
+      "professional": {
+        "name": "Professional",
+        "description": "成长团队",
+        "price": "$49",
+        "period": "/月",
+        "badge": "热门",
+        "features": [
+          "Starter的所有功能",
+          "扩展防火墙 + PII编辑",
+          "基于角色的访问控制 (RBAC)",
+          "Audit-Logs (90天)"
+        ],
+        "cta": "试用Pro"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "具有特定需求的大型企业",
+        "price": "定制",
+        "features": [
+          "无限请求",
+          "完全Enforce模式",
+          "SOC 2、GDPR、HIPAA",
+          "24/7支持",
+          "On-Premise选项"
+        ],
+        "cta": "联系"
+      },
+      "demo": "请求演示"
+    },
+    "premiumFeatures": {
+      "headerBadge": "技术规格",
+      "headerTitleLead": "企业",
+      "headerTitleStrong": "AI基础设施",
+      "headerSubtitle": "sub‑100ms性能、企业安全、全面监控的最先进AI平台。",
+      "categories": {
+        "all": "所有功能",
+        "security": "安全",
+        "performance": "性能",
+        "architecture": "架构",
+        "monitoring": "监控"
+      },
+      "docButton": "查看文档",
+      "trustedBy": "全球500+企业信任",
+      "startFree": "免费开始",
+      "scheduleDemo": "安排演示",
+      "technicalImplementation": "技术实现",
+      "items": {
+        "firewall": {
+          "title": "AI防火墙保护",
+          "subtitle": "sub‑50ms实时过滤"
+        },
+        "gateway": {
+          "title": "API Gateway (Kong)",
+          "subtitle": "TLS • Routing • Rate Limits"
+        },
+        "orchestration": {
+          "title": "多代理编排",
+          "subtitle": "智能Load Balancing"
+        },
+        "auditTrail": {
+          "title": "不可变Audit Trail",
+          "subtitle": "GDPR和SOC 2合规"
+        },
+        "monitoring": {
+          "title": "实时监控",
+          "subtitle": "实时指标Dashboard"
+        },
+        "latency": {
+          "title": "超低延迟",
+          "subtitle": "企业性能"
+        },
+        "zerotrust": {
+          "title": "零信任安全",
+          "subtitle": "企业级保护"
+        }
+      }
+    },
+    "faq": {
+      "title": "常见问题",
+      "description": "关于安全、合规和性能的最重要问题的答案。"
+    }
+  },
+  "dashboardPage": {
+    "header": {
+      "title": "产品概述",
+      "subtitle": "在聊天、代理、防火墙中快速开始 – 所有公开显示"
+    },
+    "tiles": {
+      "publicBadge": "公开",
+      "adminBadge": "管理员",
+      "button": {
+        "open": "打开",
+        "locked": "锁定",
+        "lockedTitle": "仅管理员"
+      },
+      "chat": {
+        "title": "聊天",
+        "desc": "包含guardrails的对话 – 集成聊天机器人实例。",
+        "href": "/chat"
+      },
+      "agents": {
+        "title": "代理",
+        "desc": "包含防火墙的代理概述和详细信息。",
+        "href": "/agents"
+      },
+      "firewall": {
+        "title": "防火墙",
+        "desc": "guardrails、政策、解释。",
+        "href": "/firewall"
+      },
+      "monitor": {
+        "title": "防火墙监控",
+        "desc": "实时事件 (pre/post/shadow) – 仅管理员。",
+        "href": "/dashboard/firewall"
+      }
+    },
+    "quickstart": {
+      "title": "快速开始",
+      "step1": "打开<link>聊天</link>并开始测试对话。",
+      "step2": "转到<link>防火墙</link>并查看政策示例。",
+      "step3": "如果您是管理员：启动<link>实时监控</link>并观察事件。"
+    }
+  },
+  "firewall": {
+    "title": "防火墙",
+    "mode": {
+      "test": "测试模式",
+      "enforce": "执行模式"
+    },
+    "testModeDescription": "在测试模式中，所有操作被监控但不被阻止。",
+    "enforceModeDescription": "在执行模式中，危险操作被阻止。",
+    "realtimeProtection": "通过pre/post过滤的实时保护",
+    "live": "实时dashboard",
+    "modes": "模式",
+    "onboarding": "入门",
+    "audit": "审计",
+    "security": "安全",
+    "fast": "快速",
+    "auditable": "可审计",
+    "fewMinutesActive": "几分钟内可用 – 无downtime",
+    "testModeTitle": "Shadow / 测试模式",
+    "testModeBenefits": "无风险测试：无阻塞完全可见性",
+    "clearRecommendations": "关于政策和阈值的明确建议",
+    "perfectForRiskFreeStart": "完美无风险开始",
+    "enforceModeTitle": "执行模式",
+    "enforceModeBenefits": "政策严格应用 – 危险操作被阻止",
+    "rbacLimitsContentValidation": "RBAC、速率限制、内容验证",
+    "allowBlockWithReasoning": "包含推理和信任分数的允许/阻止",
+    "quickStart": "快速开始",
+    "step1Activate": "步骤1：激活防火墙",
+    "activateFirewall": "FIREWALL_ENABLED",
+    "shadowMode": "FIREWALL_MODE",
+    "step2Connect": "步骤2：连接后端",
+    "superagentUrl": "SUPERAGENT_URL",
+    "superagentApiKey": "SUPERAGENT_API_KEY",
+    "optionalTechnicalDetails": "可选技术细节",
+    "everyCallGetsId": "每个请求接收唯一x-request-id并按审计顺序记录。",
+    "transparentLogging": "透明审计日志",
+    "whatIsRecorded": "记录了什么？",
+    "howDecisionsLook": "决策如何显示？",
+    "backToOverview": "返回概述",
+    "dashboard": {
+      "errorTitle": "加载指标错误",
+      "noMetrics": "无可用指标",
+      "totalRequests": "总请求数",
+      "increaseVsLastHour": "+{percentage}% vs. 最后一小时",
+      "blockedRequests": "阻止的请求",
+      "percentageOfTotal": "总数的{percentage}%",
+      "avgLatency": "平均延迟",
+      "errorRate": "错误率",
+      "decreaseVsLastHour": "−{ms}ms vs. 最后一小时",
+      "withinNormalRange": "在正常范围内",
+      "topThreats": "顶级威胁",
+      "systemHealth": "系统状态",
+      "status": "状态",
+      "enabled": "启用",
+      "disabled": "禁用",
+      "mode": "模式",
+      "allowed": "允许"
+    }
+  },
+  "auth": {
+    "login": "登录",
+    "logout": "登出",
+    "signup": "注册",
+    "email": "邮箱",
+    "password": "密码",
+    "forgotPassword": "忘记密码？",
+    "resetPassword": "重置密码"
+  },
+  "blog": {
+    "title": "博客",
+    "readMore": "阅读更多",
+    "latestPosts": "最新文章"
+  },
+  "cta": {
+    "primary": "立即开始",
+    "secondary": "了解更多",
+    "contact": "联系"
+  },
+  "navigation": {
+    "products": "产品",
+    "useCases": "用例",
+    "security": "安全",
+    "resources": "资源",
+    "company": "公司",
+    "productsOverview": "产品概述 (USPs)",
+    "firewall": "神经防火墙",
+    "analytics": "Analytics",
+    "agents": "代理",
+    "mas": "MAS",
+    "robotics": "Robotics",
+    "appstore": "App Store",
+    "chat": "聊天",
+    "docs": "Docs",
+    "changelog": "Changelog",
+    "integrations": "集成",
+    "pricing": "Pricing",
+    "contact": "联系"
+  },
+  "robotics": {
+    "badge": "Robotics",
+    "title": "Robotics – 包含防火墙保护的自主系统",
+    "subtitle": "从单个机器人到协调的舰队：规划、感知、安全执行 – 包含政策、Shadow→Enforce推出、可审计决策。",
+    "nav": {
+      "overview": "概述",
+      "features": "功能",
+      "safety": "安全",
+      "demo": "演示"
+    },
+    "overview": "Robotics从第一帧就需要安全：我们将感知、规划、控制与集成神经防火墙相结合。Shadow→Enforce允许无风险推出，同时政策和审计日志使每个动作可追踪。",
+    "features": {
+      "sensorfusion": {
+        "title": "实时传感器融合",
+        "desc": "相机、Lidar、IMU、遥测融合 – 在复杂和动态环境中强大的感知。"
+      },
+      "planning": {
+        "title": "规划和执行",
+        "desc": "从高级任务到安全和可验证的轨迹。政策防止危险动作。"
+      },
+      "multiagent": {
+        "title": "多代理协调",
+        "desc": "包含角色、通信、冲突解决的编排团队 – 可扩展且弹性。"
+      },
+      "firewall": {
+        "title": "神经防火墙保护",
+        "desc": "传感器数据、命令、效应器用pre/post过滤器。Shadow→Enforce允许安全实施。"
+      },
+      "twins": {
+        "title": "数字双胞胎和模拟",
+        "desc": "在模拟中验证的政策和路径 – 在实际系统参与之前。"
+      },
+      "safety": {
+        "title": "安全和合规",
+        "desc": "可追踪决策、RBAC、审计日志 – 兼容工业安全标准。"
+      }
+    },
+    "safety": {
+      "title": "安全和治理",
+      "policiesTitle": "政策",
+      "policiesDesc": "基于约束的规则用于区域、速度、交互、紧急停止 – 每个机器人和舰队。",
+      "auditTitle": "审计和跟踪",
+      "auditDesc": "每个决策被版本化并追踪 – 完美用于认证和事件响应。"
+    },
+    "cta": {
+      "title": "请求演示：带防火墙的Robotics",
+      "desc": "体验安全自主 – 从模拟到舰队运营。",
+      "contact": "联系"
+    }
+  },
+  "appstore": {
+    "badge": "App Store",
+    "title": "扩展功能和集成 – 精选、安全、快速使用准备就绪",
+    "subtitle": "在几分钟内安装验证的应用和管道：版本管理、透明权限、神经防火墙完全兼容 (Shadow→Enforce)。",
+    "nav": {
+      "overview": "概述",
+      "features": "功能",
+      "publishing": "发布",
+      "cta": "联系"
+    },
+    "overview": "在几分钟内安装精选扩展功能和预建管道 – 透明权限、版本管理、评审、神经防火墙完全兼容 (Shadow→Enforce)。",
+    "features": {
+      "curated": {
+        "title": "精选应用",
+        "desc": "从合规工具包到研究管道 – 验证质量、清晰changelogs、支持。"
+      },
+      "integrations": {
+        "title": "100+ 集成",
+        "desc": "连接数据存储、API、工具。通过RBAC和详细scope安全。"
+      },
+      "pipelines": {
+        "title": "模板和管道",
+        "desc": "包含版本管理、rollback、成本控制的部署就绪workflow。"
+      },
+      "reviews": { "title": "安全评审", "desc": "每个应用通过政策、权限、审计透明性验证。" },
+      "install": {
+        "title": "1‑Click 安装",
+        "desc": "在影子模式中测试，然后Enforce – 无downtime、完全审计包含。"
+      },
+      "licensing": {
+        "title": "灵活许可",
+        "desc": "免费、Pro或Enterprise附加组件 – 集中管理、透明计费。"
+      }
+    },
+    "publishing": {
+      "title": "发布和评审",
+      "submissionTitle": "提交流程",
+      "submissionDesc": "提交包含清晰scope、changelogs、SemVer的应用。为政策和安全自动化验证。",
+      "verifyTitle": "验证和签名",
+      "verifyDesc": "签名工件、可验证完整性、审计跟踪。在影子模式中推出，然后Enforce。"
+    },
+    "cta": {
+      "title": "提交应用或建议集成",
+      "desc": "成为生态系统的一部分：安全和精选应用 – 神经防火墙兼容。",
+      "contact": "联系"
+    }
+  },
+  "pricingUI": {
+    "errorCheckoutTitle": "结账失败",
+    "savingPercent": "节省{percent}%",
+    "effectiveLabel": "有效{price}",
+    "opening": "打开中…",
+    "contact": "联系",
+    "select": "选择",
+    "recommendedBadge": "推荐",
+    "ctaMonthlyNote": "可每月取消",
+    "ctaYearlyNote": "比每月便宜20%",
+    "effectiveBadge": "有效{price}"
+  }
+}
